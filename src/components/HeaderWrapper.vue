@@ -32,11 +32,10 @@
 
 <style scoped>
 .el-row {
-    background-color:  #324157
-}
-
-.nav {
-    text-align: right
+    background-color:  #324157;
+    position: fixed;
+    width: 100%;
+    top: 0;
 }
 
 .logo {
