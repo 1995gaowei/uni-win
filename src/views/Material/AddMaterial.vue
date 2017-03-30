@@ -29,19 +29,19 @@
         <el-input v-model="addMaterialForm.unit"></el-input>
     </el-form-item>
     <el-form-item label="门幅" prop="width">
-        <el-input v-model="addMaterialForm.width"></el-input>
+        <el-input v-model.number="addMaterialForm.width"></el-input>
     </el-form-item>
     <el-form-item label="出量" prop="outputVol">
-        <el-input v-model="addMaterialForm.outputVol"></el-input>
+        <el-input v-model.number="addMaterialForm.outputVol"></el-input>
     </el-form-item>
-    <el-form-item label="供应商" prop="vendorName">
-        <el-select v-model="addMaterialForm.vendorName" placeholder="请选择供应商">
-            <el-option :value="vendor.vendorId" v-for="vendor in vendors" :key="vendor.vendorId">{{vendor.vendorName}}</el-option>
+    <el-form-item label="供应商" prop="vendorId">
+        <el-select v-model="addMaterialForm.vendorId" placeholder="请选择供应商">
+            <el-option :label="vendor.vendorName" :value="vendor.vendorId" v-for="vendor in vendors" :key="vendor.vendorId"></el-option>
         </el-select>
     </el-form-item>
     <el-form-item label="仓储位置" prop="warehouse">
         <el-select v-model="addMaterialForm.warehouse" placeholder="请选择仓储位置">
-            <el-option :value="warehouse.warehouseid" v-for="warehouse in warehouses" :key="warehouses.warehouseid">{{warehouse.location}}</el-option>
+            <el-option :label="warehouse.location" :value="warehouse.location" v-for="warehouse in warehouses" :key="warehouses.warehouseid"></el-option>
         </el-select>
     </el-form-item>
     <el-form-item>
@@ -69,7 +69,7 @@
           unit: '',
           width: '',
           outputVol: '',
-          vendorName: '',
+          vendorId: '',
           warehouse: ''
         },
         rules: {
@@ -99,12 +99,14 @@
             { required: true, message: '请输入单位' }
           ],
           width: [
-            { required: true, message: '请输入门幅' }
+            { required: true, message: '请输入门幅' },
+            { type: 'number', message: '门幅必须为数字值' }
           ],
           outputVol: [
-            { required: true, message: '请输入出量' }
+            { required: true, message: '请输入出量' },
+            { type: 'number', message: '出量必须为数字值' }
           ],
-          vendorName: [
+          vendorId: [
             { required: true, message: '请输入供应商' }
           ],
           warehouse: [
@@ -122,7 +124,12 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            Vue.http.options.emulateJSON = true;
+            Vue.http.post(Api.backend_url + '/Material/addMaterial', this.addMaterialForm).then(response => {
+              console.log(response);
+            }, response => {
+              console.log(response);
+            });
           } else {
             console.log('error submit!!');
             return false;
