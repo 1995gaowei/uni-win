@@ -17,7 +17,7 @@
       <el-input v-model="getmaterial.buyId"></el-input>
      </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="search">查询</el-button>
+      <el-button type="primary" @click="search('getmaterial')">查询</el-button>
     </el-form-item>
      </el-form>
 
@@ -40,10 +40,6 @@ export default {
   name: 'materialInput',
   data () {
        return{
-       material:[ { materialCode:'A001', materialName:'棉布001',materialType:'棉布',vendor:'V001',color:'RGB001'},
-                  { materialCode:'A002', materialName:'棉布002',materialType:'棉布',vendor:'V002',color:'RGB002'},
-                  { materialCode:'A003', materialName:'棉布003',materialType:'棉布',vendor:'V003',color:'RGB003'}
-                ],
        getmaterial:{
           materialCode:'',
           designId:'',
@@ -53,21 +49,36 @@ export default {
        result:[]
    }
   },
-  r
   methods:{
-       search(){
-         var i;      
-         for(i=0;i<3;i++){
-        
-            if(this.getmaterial.materialCode.indexOf(this.material[i].materialCode)){                
-                 this.result.push(this.material[i]);              
-                 break;
-             }
-         }
-         
-       }
-
+       search(getmaterial){
+           if(getmaterial.materialCode||getmaterial.designId||getmaterial.materialInput||getmaterial.buyId)   {//不能全部为空
+              Vue.http.options.emulateJSON = true;
+              Vue.http.post(Api.backend_url + '/materialInput/MaterialInput', this.getmaterial).then(response => {
+              console.log(response);
+            }, response => {
+              console.log(response);
+            });   
+           } 
+           else{
+            console.log('error submit!!');
+            return false;
+           } 
+       },
+        submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            Vue.http.options.emulateJSON = true;
+            Vue.http.post(Api.backend_url + '/Material/addMaterial', this.addMaterialForm).then(response => {
+              console.log(response);
+            }, response => {
+              console.log(response);
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
   }
-
 }
 </script>
