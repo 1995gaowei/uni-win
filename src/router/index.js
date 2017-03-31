@@ -6,6 +6,9 @@ import Hello from '@/components/Hello'
 import AddMaterial from '@/views/Material/AddMaterial'
 import MaterialList from '@/views/Material/MaterialList'
 
+import MaterialInput from '@/views/MaterialInput/MaterialInput'
+import MaterialInputManagment from '@/views/MaterialInput/MaterialInputManagment'
+
 Vue.use(Router)
 Vue.use(VueResource)
 
@@ -25,6 +28,17 @@ export default new Router({
       path: '/Material/MaterialList',
       name: 'MaterialList',
       component: MaterialList
+    },
+    {
+      path: 'MaterialIn/MaterialInput',
+      name: 'MaterialInput',
+      component: MaterialInput
+    },
+    {
+      path: 'MaterialIn/MaterialInputManagment',
+      name: 'MaterialInputManagment',
+      component: MaterialInputManagment
     }
+
   ]
 })
