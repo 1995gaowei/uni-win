@@ -15,8 +15,8 @@
         <el-submenu index="2">
             <template slot="title"><i class="el-icon-menu"></i>入库管理</template>
             <el-menu-item-group>
-                <el-menu-item index="2-1"><i class="el-icon-d-arrow-right"></i>入库</el-menu-item>
-                <el-menu-item index="2-2"><i class="el-icon-d-arrow-right"></i>入库管理</el-menu-item>
+                <el-menu-item index="/MaterialIn/MaterialInput"><i class="el-icon-d-arrow-right"></i>入库</el-menu-item>
+                <el-menu-item index="/MaterialIn/MaterialInputManagment"><i class="el-icon-d-arrow-right"></i>入库管理</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="3">
