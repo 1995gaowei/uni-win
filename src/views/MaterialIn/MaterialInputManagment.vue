@@ -52,7 +52,7 @@ export default {
           this.$refs[formName].validate((valid) => {
           if (valid) {
             Vue.http.options.emulateJSON = true;
-            Vue.http.post(Api.backend_url + '/MaterialInput/MaterialInputSearch', this.MaterialInputDateForm).then(response => {
+            Vue.http.post(Api.backend_url + '/MaterialIn/MaterialInputSearch', this.MaterialInputDateForm).then(response => {
                this.result = response.body.data;
                console.log(response);
             }, response => {

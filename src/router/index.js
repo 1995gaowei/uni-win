@@ -6,8 +6,8 @@ import Hello from '@/components/Hello'
 import AddMaterial from '@/views/Material/AddMaterial'
 import MaterialList from '@/views/Material/MaterialList'
 
-import MaterialInput from '@/views/MaterialInput/MaterialInput'
-import MaterialInputManagment from '@/views/MaterialInput/MaterialInputManagment'
+import MaterialInput from '@/views/MaterialIn/MaterialInput'
+import MaterialInputManagment from '@/views/MaterialIn/MaterialInputManagment'
 
 Vue.use(Router)
 Vue.use(VueResource)

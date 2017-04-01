@@ -1,5 +1,5 @@
 <template>
-<div >
+<div>
      <el-form :inline="true"  v-model="getmaterial"  class="demo-form-inline" :rules="rules" ref="MaterialInputForm" label-width="100px">
       <el-form-item label="物料编码">
       <el-input v-model="getmaterial.materialCode" ></el-input>
@@ -35,6 +35,7 @@
      </el-table>    
 </div>     
 </template>
+
 <script>
   import Vue from 'vue'
   import Api from '@/config/api'
@@ -55,7 +56,7 @@ export default {
   methods:{
        search(getmaterial){
            if(getmaterial.materialCode||getmaterial.designId||getmaterial.materialInput||getmaterial.buyId)   {//不能全部为空
-              Vue.http.post(Api.backend_url + '/MaterialInput/GetMaterial', this.getmaterial).then(response => {
+              Vue.http.post(Api.backend_url + '/MaterialIn/GetMaterial', this.getmaterial).then(response => {
                   this.result=response.body.data;
                    console.log(response);
             }, response => {
