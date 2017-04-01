@@ -8,6 +8,8 @@ import MaterialList from '@/views/Material/MaterialList'
 import MaterialInput from '@/views/MaterialIn/MaterialInput'
 import MaterialInputManagment from '@/views/MaterialIn/MaterialInputManagment'
 
+import ProcessorManagment from '@/views/ProcessManagment/ProcessorManagment'
+
 Vue.use(Router)
 
 export default new Router({
@@ -36,6 +38,11 @@ export default new Router({
       path: 'MaterialIn/MaterialInputManagment',
       name: 'MaterialInputManagment',
       component: MaterialInputManagment
+    },
+    {
+      path: 'ProcessManagment/ProcessorManagment',
+      name: 'ProcessorManagment',
+      component: ProcessorManagment
     }
 
   ]

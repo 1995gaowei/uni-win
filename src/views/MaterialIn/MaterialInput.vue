@@ -20,7 +20,7 @@
       <el-button type="primary" @click="search('getmaterial')">查询</el-button>
     </el-form-item>
      </el-form>
-
+   <!--此处分页还没写-->
      <el-table :data="result" style="width:100%">
         <el-table-column prop="materialCode" label="物料编码" >
         </el-table-column>
