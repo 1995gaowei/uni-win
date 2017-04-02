@@ -20,11 +20,6 @@ export default new Router({
       component: Hello
     }, 
     {
-      path: '/Material/AddMaterial',
-      name: 'AddMaterial',
-      component: AddMaterial
-    },
-    {
       path: '/Material/MaterialList',
       name: 'MaterialList',
       component: MaterialList

@@ -124,7 +124,6 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Material/addMaterial', this.addMaterialForm).then(response => {
               console.log(response);
             }, response => {
