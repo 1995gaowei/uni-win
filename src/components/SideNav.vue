@@ -4,7 +4,7 @@
             <template slot="title"><i class="el-icon-menu"></i>物料管理</template>
             <el-menu-item-group>
                 <el-menu-item index="/Material/MaterialList"><i class="el-icon-d-arrow-right"></i>物料管理</el-menu-item>
-                <el-menu-item index="/m/1-4"><i class="el-icon-d-arrow-right"></i>物料预定查询</el-menu-item>
+                <el-menu-item index="/Material/MaterialApplyList"><i class="el-icon-d-arrow-right"></i>物料申请历史</el-menu-item>
                 <el-menu-item index="1-5"><i class="el-icon-d-arrow-right"></i>供应商管理</el-menu-item>
                 <el-menu-item index="1-6"><i class="el-icon-d-arrow-right"></i>款式新增</el-menu-item>
                 <el-menu-item index="1-7"><i class="el-icon-d-arrow-right"></i>款式与物料</el-menu-item>
