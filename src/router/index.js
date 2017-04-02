@@ -30,17 +30,17 @@ export default new Router({
       component: MaterialList
     },
     {
-      path: 'MaterialIn/MaterialInput',
+      path: '/MaterialIn/MaterialInput',
       name: 'MaterialInput',
       component: MaterialInput
     },
     {
-      path: 'MaterialIn/MaterialInputManagment',
+      path: '/MaterialIn/MaterialInputManagment',
       name: 'MaterialInputManagment',
       component: MaterialInputManagment
     },
     {
-      path: 'ProcessManagment/ProcessorManagment',
+      path: '/ProcessManagment/ProcessorManagment',
       name: 'ProcessorManagment',
       component: ProcessorManagment
     }
