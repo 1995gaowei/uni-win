@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 
 import MaterialList from '@/views/Material/MaterialList'
 import MaterialApplyList from '@/views/Material/MaterialApplyList'
+import DesignList from '@/views/Material/DesignList'
 
 import MaterialInput from '@/views/MaterialIn/MaterialInput'
 import MaterialInputManagment from '@/views/MaterialIn/MaterialInputManagment'
@@ -23,6 +24,11 @@ export default new Router({
       path: '/Material/MaterialList',
       name: 'MaterialList',
       component: MaterialList
+    },
+    {
+      path: '/Material/DesignList',
+      name: 'DesignList',
+      component: DesignList
     },
     {
       path: '/Material/MaterialApplyList',
