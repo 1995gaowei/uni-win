@@ -26,10 +26,10 @@
         <el-submenu index="4">
             <template slot="title"><i class="el-icon-menu"></i>加工管理</template>
             <el-menu-item-group>
-                <el-menu-item index="/ProcessManagment/ProcessorManagment"><i class="el-icon-d-arrow-right"></i>加工方管理</el-menu-item>
-                <el-menu-item index="4-2"><i class="el-icon-d-arrow-right"></i>收货单管理</el-menu-item>
-                <el-menu-item index="4-3"><i class="el-icon-d-arrow-right"></i>新增外发单</el-menu-item>
-                <el-menu-item index="4-4"><i class="el-icon-d-arrow-right"></i>外发单管理</el-menu-item>
+                <el-menu-item index="/Process/ProcessorManagment"><i class="el-icon-d-arrow-right"></i>加工方管理</el-menu-item>
+                <el-menu-item index="/Process/Receive"><i class="el-icon-d-arrow-right"></i>收货单管理</el-menu-item>
+                <el-menu-item index="/Process/OutSource_new"><i class="el-icon-d-arrow-right"></i>新增外发单</el-menu-item>
+                <el-menu-item index="/Process/Outsourcelist"><i class="el-icon-d-arrow-right"></i>外发单管理</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="5">

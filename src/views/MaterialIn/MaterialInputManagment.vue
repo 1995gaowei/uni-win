@@ -1,8 +1,8 @@
 <template>
 <div>
-    <el-form :inline="true"  class="demo-form-inline" :rules="rules" ref="MaterialInputDateForm" label-width="100px"> 
-        <el-form-item label="入库时间">
-            <el-date-picker type="date" v-model="MaterialInputDateForm" style="width: 100%;"></el-date-picker>
+    <el-form :inline="true" v-model="MaterialInputDateForm" class="demo-ruleForm" :rules="rules" ref="MaterialInputDateForm" label-width="100px"> 
+        <el-form-item label="入库时间" prop="materialInputDate">
+            <el-date-picker type="date" v-model="MaterialInputDateForm.materialInputDate" style="width: 100%;"></el-date-picker>
         </el-form-item>
         <el-form-item>
         <el-button type="primary" @click="search('MaterialInputDateForm')">查询</el-button>
@@ -83,19 +83,21 @@ import Api from '@/config/api'
 export default {
   data () {
        return{
-       MaterialInputDateForm: '',
+       MaterialInputDateForm: {
+           materialInputDate:''
+       },
        result: [],
        material: [],
        materials: [],
        dialogMaterialVisible: false,
-       formLabelWidth: '120px'
-   };
-  },
-  rules:{
-       materialInputDateForm: [
-            { type: 'date' ,  message:'输入必须为日期'},
-            { required: true, message: '请输入入库时间' }
+       formLabelWidth: '120px',
+       rules:{
+       materialInputDate: [
+            { required: true, message: '请输入入库时间'},
+            { type: 'date' ,  message: '输入必须为日期'}
           ]
+      }
+   };
   },
   methods:{
           search(formName){

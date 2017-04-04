@@ -9,7 +9,10 @@ import DesignList from '@/views/Material/DesignList'
 import MaterialInput from '@/views/MaterialIn/MaterialInput'
 import MaterialInputManagment from '@/views/MaterialIn/MaterialInputManagment'
 
-import ProcessorManagment from '@/views/ProcessManagment/ProcessorManagment'
+import ProcessorManagment from '@/views/Process/ProcessorManagment'
+import Receive from '@/views/Process/Receive'
+import OutSource_new from  '@/views/Process/OutSource_new'
+import Outsourcelist from '@/views/Process/Outsourcelist'
 
 Vue.use(Router)
 
@@ -46,9 +49,24 @@ export default new Router({
       component: MaterialInputManagment
     },
     {
-      path: '/ProcessManagment/ProcessorManagment',
+      path: '/Process/ProcessorManagment',
       name: 'ProcessorManagment',
       component: ProcessorManagment
+    },
+    {
+      path: '/Process/Receive',
+      name: 'Receive',
+      component: Receive
+    },
+    {
+      path: '/Process/OutSource_new',
+      name: 'OutSource_new',
+      component: OutSource_new
+    },
+    {
+      path: '/Process/Outsourcelist',
+      name: 'Outsourcelist',
+      component: Outsourcelist
     }
 
   ]
