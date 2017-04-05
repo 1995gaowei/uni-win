@@ -5,6 +5,7 @@ import Hello from '@/components/Hello'
 import MaterialList from '@/views/Material/MaterialList'
 import MaterialApplyList from '@/views/Material/MaterialApplyList'
 import DesignList from '@/views/Material/DesignList'
+import DesignDetail from '@/views/Material/DesignDetail'
 
 import MaterialInput from '@/views/MaterialIn/MaterialInput'
 import MaterialInputManagment from '@/views/MaterialIn/MaterialInputManagment'
@@ -29,14 +30,18 @@ export default new Router({
       component: MaterialList
     },
     {
+      path: '/Material/MaterialApplyList',
+      name: 'MateraiApplyList', 
+      component: MaterialApplyList
+    },
+    {
       path: '/Material/DesignList',
       name: 'DesignList',
       component: DesignList
     },
     {
-      path: '/Material/MaterialApplyList',
-      name: 'MateraiApplyList', 
-      component: MaterialApplyList
+      path: '/DesignDetail/:designID',
+      component: DesignDetail
     },
     {
       path: '/MaterialIn/MaterialInput',
