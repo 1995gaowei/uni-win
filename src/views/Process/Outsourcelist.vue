@@ -7,6 +7,7 @@
          <el-form-item label="款号" prop="outsourceForm">
             <el-input v-model="outsourceForm.designCode"></el-input>
          </el-form-item>
+         <br>
          <el-form-item label="外发时间" prop="outsourceForm">
             <el-date-picker v-model="outsourceForm.outDate"></el-date-picker>
          </el-form-item>

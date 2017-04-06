@@ -35,10 +35,10 @@
         <el-submenu index="5">
             <template slot="title"><i class="el-icon-menu"></i>排单管理</template>
             <el-menu-item-group>
-                <el-menu-item index="5-1"><i class="el-icon-d-arrow-right"></i>开始排单</el-menu-item>
-                <el-menu-item index="5-2"><i class="el-icon-d-arrow-right"></i>大货工艺排单</el-menu-item>
-                <el-menu-item index="5-3"><i class="el-icon-d-arrow-right"></i>大货裁剪排单</el-menu-item>
-                <el-menu-item index="5-4"><i class="el-icon-d-arrow-right"></i>大货外发排单</el-menu-item>
+                <el-menu-item index="/ListManage/StartOutSourceManage"><i class="el-icon-d-arrow-right"></i>开始排单</el-menu-item>
+                <el-menu-item index="/ListManage/TechniqueList"><i class="el-icon-d-arrow-right"></i>大货工艺排单</el-menu-item>
+                <el-menu-item index="/ListManage/TailorPhaseList"><i class="el-icon-d-arrow-right"></i>大货裁剪排单</el-menu-item>
+                <el-menu-item index="/ListManage/outSourceManage"><i class="el-icon-d-arrow-right"></i>大货外发排单</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="6">

@@ -14,6 +14,11 @@ import Receive from '@/views/Process/Receive'
 import OutSource_new from  '@/views/Process/OutSource_new'
 import Outsourcelist from '@/views/Process/Outsourcelist'
 
+import StartOutSourceManage from '@/views/ListManage/StartOutSourceManage'
+import TechniqueList from '@/views/ListManage/TechniqueList'
+import TailorPhaseList from '@/views/ListManage/TailorPhaseList'
+import outSourceManage from '@/views/ListManage/outSourceManage'
+
 Vue.use(Router)
 
 export default new Router({
@@ -67,6 +72,26 @@ export default new Router({
       path: '/Process/Outsourcelist',
       name: 'Outsourcelist',
       component: Outsourcelist
+    },
+    {
+      path: '/ListManage/StartOutSourceManage',
+      name: 'StartOutSourceManage',
+      component : StartOutSourceManage
+    },
+    {
+      path: '/ListManage/TechniqueList',
+      name: 'TechniqueList',
+      component: TechniqueList
+    },
+    {
+      path: '/ListManage/TailorPhaseList',
+      name: 'TailorPhaseList',
+      component:TailorPhaseList
+    },
+    {
+      path: '/ListManage/outSourceManage',
+      name: 'outSourceManage',
+      component: outSourceManage
     }
 
   ]
