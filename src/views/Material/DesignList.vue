@@ -18,9 +18,16 @@
         width="70">
       </el-table-column>
       <el-table-column
+        label="图片"
+        width="200">
+        <template scope="scope">
+          <img src="../../assets/logo.png" class="image">
+        </template>
+      </el-table-column>
+      <el-table-column
         prop="designCode"
         label="编号"
-        width="230">
+        width="180">
       </el-table-column>
       <el-table-column
         prop="designName"
@@ -31,19 +38,11 @@
         label="价格">
       </el-table-column>
       <el-table-column
-        prop="designType"
-        label="款式类型">
-      </el-table-column>
-      <el-table-column
-        prop="designColorDescription"
-        label="颜色说明">
-      </el-table-column>
-      <el-table-column
         label="操作"
         fixed="right"
         width="145">
             <template scope="scope">
-                <el-button @click="showApplyDesignDialog(scope.row)" type="primary" size="small">详情</el-button>
+                <el-button @click="toDesignDetail(scope.row)" type="primary" size="small">详情</el-button>
                 <el-button @click.native.prevent="deleteDesign(scope.$index, designList)" type="danger" size="small">删除</el-button>
             </template>
         </el-table-column>
@@ -64,7 +63,7 @@
         <el-input v-model="addDesignForm.designType"></el-input>
     </el-form-item>
     <el-form-item label="上架时间" prop="designPutawayDate">
-        <el-date-picker v-model="addDesignForm.designPutawayDate"></el-date-picker placeholder="选择日期">
+        <el-date-picker v-model="addDesignForm.designPutawayDate" placeholder="选择日期"></el-date-picker>
     </el-form-item>
     <el-form-item label="吊牌编号" prop="designHangTagCode">
         <el-input v-model="addDesignForm.designHangTagCode"></el-input>
@@ -76,7 +75,7 @@
         <el-input v-model="addDesignForm.designMainLabelCode"></el-input>
     </el-form-item>
     <el-form-item label="工序" prop="designTechProcedure">
-        <el-select v-model="addDesignForm.designType" placeholder="请选择工序">
+        <el-select v-model="addDesignForm.designTechProcedure" placeholder="请选择工序">
             <el-option label="裁剪-工艺-外发" value="裁剪-工艺-外发"></el-option>
             <el-option label="工艺-裁剪-外发" value="工艺-裁剪-外发"></el-option>
             <el-option label="裁剪-外发" value="裁剪-外发"></el-option>
@@ -104,6 +103,7 @@
   <script>
    import Vue from 'vue'
    import Api from '@/config/api'
+   import router from '@/router'
 
     export default {
       data() {
@@ -122,8 +122,10 @@
             designHangTagCode: '',
             designsewninCode: '',
             designMainLabelCode: '',
+            designTechProcedure: '',
             designColorDescription: '',
-
+            designFlagShipURL: '',
+            designComment: ''
           },
           addDesignRules: {
             designCode: [
@@ -183,14 +185,16 @@
               return el.designCode.indexOf(this.designSearchInfo) >= 0 || el.designName.indexOf(this.designSearchInfo) >= 0
             });
           },
-          showApplyDesignDialog(row) {
-
+          toDesignDetail(row) {
+            console.log(row.designCode);
+            router.push('/DesignDetail/'+row.designID);
           },
           addDesign(formName) {
             this.$refs[formName].validate((valid) => {
               if (valid) {
-                // Vue.http.post(Api.backend_url + '/Design/addDesign', this.addDesignForm).then(response => {
-                //   console.log(response);
+                this.addDesignForm.designPutawayDate = this.addDesignForm.designPutawayDate.toJSON();
+                Vue.http.post(Api.backend_url + '/Bom/addDesign', this.addDesignForm).then(response => {
+                  console.log(response);
                   let newDesign = {};
                   for (let k in this.addDesignForm) {
                     newDesign[k] = this.addDesignForm[k];
@@ -203,9 +207,9 @@
                     message: '新增款式成功',
                     type: 'success'
                   });
-                // }, response => {
-                //   console.log(response);
-                // });
+                }, response => {
+                  console.log(response);
+                });
               } else {
                 console.log('error submit!!');
                 return false;
@@ -218,3 +222,9 @@
       }
     }
   </script>
+
+  <style>
+    .image{
+      width: 100%;
+    }
+  </style>
