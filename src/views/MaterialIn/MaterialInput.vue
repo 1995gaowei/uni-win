@@ -1,6 +1,6 @@
 <template>
 <div>
-     <el-form :inline="true"  v-model="getmaterial"  class="demo-form-inline" :rules="rules" ref="MaterialInputForm" label-width="100px">
+     <el-form :inline="true"  v-model="getmaterial"  class="demo-form-inline" :rules="rules" ref="getmaterial" label-width="100px">
       <el-form-item label="物料编码">
       <el-input v-model="getmaterial.materialCode" ></el-input>
      </el-form-item>
@@ -52,7 +52,6 @@ export default {
        result:[]
    };
   },
-  //GetMaterial.vue还没写
   methods:{
        search(getmaterial){
            if(getmaterial.materialCode||getmaterial.designId||getmaterial.materialInput||getmaterial.buyId)   {//不能全部为空

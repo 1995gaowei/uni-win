@@ -99,12 +99,22 @@ export default{
             }
         };
     },
+      created: function() {
+          this.fetchData();
+      },
     methods:{
+        fetchData() {
+              Vue.http.get(Api.backend_url + '/Process/outsourcelist').then(response => {
+                    this.outsourceDetails = response.body.data;
+                }, response => {
+                    console.log(response);
+                });
+          },
          addReceiveOutSource(formName){
           this.$refs[formName].validate((valid) => {
           if (valid) {
             Vue.http.options.emulateJSON = true;
-            Vue.http.post(Api.backend_url + '/Processor/addReceiveOutSource', this.ReceiveOutSourceForm).then(response => {
+            Vue.http.post(Api.backend_url + '/Process/changeState', this.ReceiveOutSourceForm).then(response => {
                 this.$message('收货单提交成功');
                  console.log(response);
             }, response => {
@@ -134,17 +144,18 @@ export default{
          },
          abandonOutSource(outsourceCode){
             Vue.http.options.emulateJSON = true;
-            Vue.http.post(Api.backend_url + '/Processor/abandonOutSource', outsourceCode).then(response => {
+            Vue.http.post(Api.backend_url + '/Process/cancelOutSource', outsourceCode).then(response => {
                  console.log(response);
             }, response => {
               console.log(response);
             });
          },
          updateOutSource(outsourceCode){
-             //转到修改页面-->
+            //var url=getRootPath()+"/Process/printOutSource?codeID="+selectedCode;   ************
+			//	window.open(url);
          },
          printOutSource(outsourceCode){
-             //转到打印页面-->
+           // location.href= getRootPath() + "/Process/getOutSource?codeID="+outsourceCode;    **********
          }
 
     }

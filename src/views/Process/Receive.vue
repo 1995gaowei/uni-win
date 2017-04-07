@@ -71,12 +71,23 @@ export default{
              }
           };
       },
+      created: function() {
+          this.fetchData();
+      },
       methods:{
+           fetchData() {
+              Vue.http.get(Api.backend_url + '/Process/receivelist').then(response => {
+                    this.receiveInfo= response.body.data;
+                     console.log(response);
+                }, response => {
+                    console.log(response);
+                });
+          },
           searchDelivery(formName){
           this.$refs[formName].validate((valid) => {
           if (valid) {
             Vue.http.options.emulateJSON = true;
-            Vue.http.post(Api.backend_url + '/receive/getReceive', this.searchDeliveryForm).then(response => {
+            Vue.http.post(Api.backend_url + '/Process/queryReceive', this.searchDeliveryForm).then(response => {
               this.receiveInfo = response.body.data;
               console.log(response);
             }, response => {
@@ -90,11 +101,11 @@ export default{
         },
         handleDelete(receiveID){
             deleteReceive = true;
-            this.receiveID=receiveID;
+            this.receiveID = receiveID;
         },
         deleteReceiveTo(receiveID){
             Vue.http.options.emulateJSON = true;
-            Vue.http.post(Api.backend_url + '/receive/deleteReceive', this.receiveID).then(response => {
+            Vue.http.post(Api.backend_url + '/Process/cancelReceive', this.receiveID).then(response => {
              deleteReceiveVisiable = false;
               this.$message('废弃成功!');
               console.log(response);
@@ -104,10 +115,10 @@ export default{
 
         },
         handleEdit(receiveID){
-              //此处为跳转至新增收货单界面AddReceive
+              //此处为跳转至新增收货单界面location.href= getRootPath() + "/Process/getReceive?receiveID="+selectedID;   
         },
         handlePrint(receiveID){
-            //此处为跳转至打印界面
+            //此处为跳转至打印界面url=getRootPath()+"/Process/printReceive?receiveID="+selectedID;
         }
 
       }

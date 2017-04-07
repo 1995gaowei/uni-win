@@ -65,7 +65,7 @@
          </el-table-column>
       </el-table> 
       <!--修改裁剪进度-->
-      <el-dialog v-model="changeTailStateVisible">
+      <el-dialog v-model="changeTailStateVisible" title="裁剪进度">
          <el-form v-model="changeTailorState">
                <el-form-item label="外发单号">
                    <el-input v-model="changeTailorState.outSourceID"></el-input>

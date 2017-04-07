@@ -1,11 +1,11 @@
 <template>
 <div>
-    <el-form v-model="processorNameForm" :rules="rules" ref="processorNameForm"   class="demo-ruleForm" :inline="true">
-       <el-form-item label="加工方名称" style="width:40%" prop="processorName">
-           <el-input v-model="processorNameForm.processorName"></el-input>
+    <el-form v-model="processorInfo"   :inline="true">
+       <el-form-item label="加工方" style="width:40%">
+           <el-input v-model="processorInfo" @change="handleSearchProcessor"></el-input>
        </el-form-item>  
        <el-form-item>
-       <el-button type="primary" @click="searchProcessor('processorNameForm')">查询</el-button>
+       <el-button type="primary" @click="searchProcessor">查询</el-button>
        <el-button type="primary" @click="dialogAddProcessor = true">新增</el-button>
        </el-form-item>
     </el-form>
@@ -76,24 +76,26 @@
             <el-form-item  label="备注" :label-width="formLabelWidth" prop="processorComment">
                 <el-input v-model="newProcessorForm.processorComment" > </el-input>
             </el-form-item>
-            <el-form-item>
-                 <el-button type="primary" @click="addProcessorTo('newProcessorForm')">添加</el-button>
+        </el-form>
+         <div slot="footer" class="dialog-footer">
+                  <el-button type="primary" @click="addProcessorTo('newProcessorForm')">添加</el-button>
                  <el-button type="primary" @click="dialogAddProcessor = false">关闭</el-button>
                  <el-button type="primary" @click="resetForm('newProcessorForm')">重置</el-button>
-            </el-form-item>
-        </el-form>
+          </div>
     </el-dialog>
     <!--收货-->
     <el-dialog title="加工方收货" v-model="dialogtakeDelivery">
         <el-form v-model="takeDeliveryInfoForm" ref="takeDeliveryInfoForm" :rules="rules"  class="demo-ruleForm">
             <el-form-item label="加工方编号" v-model="takeDeliveryInfoForm.processorCode"> 
             </el-form-item>
-            <el-form-item label="外发单号" v-model="takeDeliveryInfoForm.puttingOut">  </el-form-item>
+            <el-form-item label="外发单号" v-model="takeDeliveryInfoForm.outsource_Code">  </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="takeDeliverying('takeDeliveryInfoForm')">收货</el-button>
-                <el-button type="primary" @click="dialogtakeDelivery = false">关闭</el-button>
             </el-form-item>
         </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogtakeDelivery = false">关闭</el-button>
+        </div>
     </el-dialog>
 </div>
 </template>
@@ -105,10 +107,11 @@ import Api from '@/config/api'
 export default{
     data(){
        return{
-         processorNameForm:{
-              processorName: ''
-         },
+        
+          processorInfo: '',
+       
           processor: [],
+          _processor: [],
           newProcessorForm: {
              processorCode: '',
              processorName: '',
@@ -125,7 +128,7 @@ export default{
           },
           takeDeliveryInfoForm:{
               processorCode: '',
-              puttingOut: ''
+              outsource_Code: ''
           },
           dialogAddProcessor: false,
           dialogtakeDelivery: false,
@@ -172,32 +175,37 @@ export default{
   }
    };
     },
+       created: function() {
+          this.fetchData();
+      },
     methods:{
-        searchProcessor(formName){
-          this.$refs[formName].validate((valid) => {
-          if (valid) {
+         fetchData() {
+              Vue.http.get(Api.backend_url + '/Process/processorlist').then(response => {
+                    this.processor = response.body.data;
+                    this._processor = this.processor;
+                }, response => {
+                    console.log(response);
+                });
+          },
+        searchProcessor(){ 
             Vue.http.options.emulateJSON = true;
-            Vue.http.post(Api.backend_url + '/Processor/GetProcessor', this.processorName).then(response => {
+            Vue.http.post(Api.backend_url + '/Processor/queryProcessor', this.processorInfo).then(response => {
                this.processor = response.body.data;
                console.log(response);
             }, response => {
               console.log(response);
-            });
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+            });      
         },
-        showTakeDelivery(processorCode){
-            Vue.http.options.emulateJSON = true;
-            Vue.http.post(Api.backend_url + '/Processor/GetProcessor', this.processorName).then(response => {
-               this.takeDeliveryInfo = response.body.data;
-               dialogtakeDelivery = true;
-               console.log(response);
-            }, response => {
-              console.log(response);
+        handleSearchProcessor() {
+            this.processor = this._processor.filter((el, idx, arr) => {
+              return el.processorName.indexOf(this.processorInfo) >= 0 || el.processorCode.indexOf(this.processorInfo) >= 0
             });
+          },
+        showTakeDelivery(processorCode){
+               this.takeDeliveryInfo.processorCode=processor;
+               this.takeDeliveryInfo.outsource_Code='outcode001';
+               dialogtakeDelivery = true;
+        
         },
         addProcessorTo(formName){
           this.$refs[formName].validate((valid) => {
@@ -218,13 +226,7 @@ export default{
         takeDeliverying(formName){
           this.$refs[formName].validate((valid) => {
           if (valid) {
-            Vue.http.options.emulateJSON = true;
-            Vue.http.post(Api.backend_url + '/Processor/addDelivery', this.takeDeliveryInfoForm).then(response => {
-              this.$message('提交收货成功!');
-              console.log(response);
-            }, response => {
-              console.log(response);
-            });
+            //此处需要跳转至receive_new界面，还没写*************************************************************
           } else {
             console.log('error submit!!');
             return false;
