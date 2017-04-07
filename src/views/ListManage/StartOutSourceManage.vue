@@ -1,28 +1,45 @@
 <template>
   <div>
       <el-form v-model="searchOutSourceForm" ref="searchOutSourceForm" :rules="rules" class="demo-ruleForm" :inline="true">
-           <el-form-item prop="designCode" label="款式编码">
-               <el-input v-model="searchOutSourceForm.designCode"></el-input>
+           <el-form-item prop="designInfo" label="款式" @change="handlesearchOS">
+               <el-input v-model="searchOutSourceForm.designCode" placeholder="款号/款名"></el-input>
            </el-form-item>
-           <el-form-item prop="designName" label="款式名称">
-               <el-input v-model="searchOutSourceForm.designCode"></el-input>
-           </el-form-item>
-           <br>
-           <el-form-item prop="outSourceCode" label="订单编号">
+           
+           <el-form-item prop="outSourceCode" label="订单编号"  @change="handlesearchOS">
                <el-input v-model="searchOutSourceForm.outSourceCode"></el-input>
            </el-form-item>
-           <el-form-item prop="byOutDate" label="截至外发时间">
+           <el-form-item prop="byOutDate" label="截至外发时间" >
                <el-date-picker v-model="searchOutSourceForm.outSource_date"></el-date-picker>
            </el-form-item>
            <el-form-item> 
                <el-button type="primary" @click="searchOutSourceList('searchOutSourceForm')">查询</el-button>
            </el-form-item>
       </el-form> 
-      <!--此处详情展开没写**********************************************-->
+      <span>外发单详情>></span>
       <el-table v-model="outSourceList">
-         <el-table-item prop="picture" label="图片"> </el-table-item>
-         <el-table-item prop="outSourceCodeInfo" label="订单编号"></el-table-item>
-         <el-table-item prop="designInfo" label="款式信息"></el-table-item>
+         <el-table-item label="图片"> 
+          <template scope="scope">
+          <img src="../../assets/logo.png" class="image">
+        </template>
+        </el-table-item>
+         <el-table-item label="订单编号">
+         <template scope="scope">
+            <table>
+            <tr><td>订单编号:</td><td>{{scope.row.outSourceCode}}</td></tr>
+            <tr><td>工序:</td><td>{{scope.row.designTechProcedure}}</td></tr>
+            <tr><td>状态:</td><td>{{scope.row.orderPriority}}</td></tr>
+            </table>
+         </template>
+         </el-table-item>
+         <el-table-item label="款式信息">
+           <template scope="scope">
+            <table>
+            <tr><td>款号:</td><td>{{scope.row.designCode}}</td></tr>
+            <tr><td>款名:</td><td>{{scope.row.designName}}</td></tr>
+          
+            </table>
+           </template>
+         </el-table-item>
          <el-table-item prop="outDate" label="外发时间"></el-table-item>
          <el-table-item prop="outSourceManangState" label="排单状态"></el-table-item>
          <el-table-item label="操作">
@@ -134,17 +151,18 @@
 <script>
 import Vue from 'vue'
 import Api from '@/config/api'
+import router from '@/router'
 
 export default{
     data(){
         return{
             searchOutSourceForm:{
-                designCode:'',
-                designName:'',
+                designInfo:'',
                 outSourceCode:'',
                 outSource_date:''
             },
             outSourceList:[],
+            _outSourceList: [],
             outSourceDetailVisible:false,
             outSourceDetail:{},
             rules:{
@@ -154,13 +172,35 @@ export default{
             }
         };
     },
+    created:function(){
+        this.fetchData();
+    },
     methods:{
+        fetchData() {
+              Vue.http.get(Api.backend_url + '/listManage/StartOutSourceManage').then(response => {
+                    this.outSourceList = response.body.data;
+                    this._outSourceList = this.outSourceList;
+                }, response => {
+                    console.log(response);
+                });
+          },
+          handlesearchOS(){
+            this.outSourceList = this._outSourceList.filter((el, idx, arr) => {
+              return el.designCode.indexOf(this.searchOutSourceForm.designInfo) >= 0 || el.designName.indexOf(this.searchOutSourceForm.designInfo) >= 0|| el.outSourceCode.indexOf(this.searchOutSourceForm.outSourceCode) >= 0
+                    
+            });
+          },
         searchOutSourceForm(formName){
            this.$refs[formName].validate((valid) => {
           if (valid) {
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/ListManage/InquireOutSourceUnsolved', this.searchOutSourceForm).then(response => {
               this.outSourceList = response.body.data;
+              let newOS={};
+              for(let k in this.searchOutSourceForm){
+                newOS[k] = this.searchOutSourceForm[k];
+              }
+              this._outSourceList.unshift(newOS);
               console.log(response);
             }, response => {
               console.log(response);

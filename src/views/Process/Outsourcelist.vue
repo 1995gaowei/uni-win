@@ -185,6 +185,7 @@ export default{
         fetchData() {
               Vue.http.get(Api.backend_url + '/Process/outsourcelist').then(response => {
                     this.outsourceDetails = response.body.data;
+                    this._outsourceDetails = this.outsourceDetails;
                 }, response => {
                     console.log(response);
                 });

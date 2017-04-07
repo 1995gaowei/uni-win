@@ -1,21 +1,14 @@
 <template>
    <div>
       <el-form v-model="searchTPForm" ref="searchTPForm" class="demo-ruleForm" :inline="true" :rules="rules">
-         <el-form-item label="款式编号" prop="designCode">
-            <el-input v-model="searchTPForm.designCode"></el-input>
+         <el-form-item label="款式" prop="designInfo">
+            <el-input v-model="searchTPForm.designInfo" placeholder="请输入款号/款名/工艺" @click="handlesearchTH"></el-input>
          </el-form-item>
-         <el-form-item label="款式名称" prop="designCode">
-            <el-input v-model="searchTPForm.designCode"></el-input>
+         <el-form-item label="订单编号" prop="outsourceCode" @click="handlesearchTH">
+            <el-input v-model="searchTPForm.outsourceCode"></el-input>
          </el-form-item>
-         <el-form-item label="款号" prop="designCode">
-            <el-input v-model="searchTPForm.designCode"></el-input>
-         </el-form-item>
-         <br>
-         <el-form-item label="订单编号" prop="designCode">
-            <el-input v-model="searchTPForm.designCode"></el-input>
-         </el-form-item>
-         <el-form-item label="截至外发时间" prop="designCode">
-            <el-date-picker v-model="searchTPForm.designCode"></el-date-picker>
+         <el-form-item label="截至外发时间" prop="outsource_date">
+            <el-date-picker v-model="searchTPForm.outsource_date"></el-date-picker>
          </el-form-item>
          <el-form-item>
             <el-button type="primary" @click="searchTP('searchTPForm')">查询</el-button>
@@ -32,7 +25,7 @@
          <el-table-column prop="TechniquePhaseVO.inInWarehouse" label="面料进度"></el-table-column>
          <el-table-column label="操作">
             <template scope="scope">
-                 <el-button type="primary" size="small" @click="showOutSourceDetail('scope.row.outSourceCode')">详情</el-button>
+                 <el-button type="primary" size="small" @click="showOutSourceDetail('scope.row.outSourceID')">详情</el-button>
                  <el-button type="primary" size="small" @click="changeSelected('scope.row.outSourceCode','scope.row.techniqueState')">进度修改</el-button>
               </template>
          </el-table-column>
@@ -126,7 +119,9 @@
               </td>
             </tr>
          </table>
-         <el-button type="primary" @click="outSourceDetailVisible = false"></el-button>
+         <div slot="footer" class="dialog-footer">
+         <el-button type="primary" @click="outSourceDetailVisible = false">关闭</el-button>
+         </div>
       </el-dialog>
       <!--工艺进度-->
       <el-dialog v-model="changeTechniqueStateVisible" title="工艺进度">
@@ -138,10 +133,13 @@
                 <el-input v-model="changeTechniqueStateForm.techniqueState"></el-input>
             </el-form-item>
              <el-form-item >
-                <el-button type="primary" @click="finishChangeState" :disabled="flagS === '进行中'">开始</el-button>
-                <el-button type="primary" @click="finishChangeState" :disabled="flagE === '未开始'">完成</el-button>
+                <el-button type="primary" @click="finishChangeState" :disabled="flagS">开始</el-button>
+                <el-button type="primary" @click="finishChangeState" :disabled="flagE">完成</el-button>
             </el-form-item>
          </el-form>
+         <div slot="footer" class="dialog-footer">
+         <el-button type="primary" @click="changeTechniqueStateVisible = false">关闭</el-button>
+         </div>
       </el-dialog>
    </div>
 </template>
@@ -152,13 +150,13 @@ import Api from '@/config/api'
 export default{
     data(){
         return{
-            searchTPForm:{designCode:'',
-            designName:'',
-            outsourceCode:'',
-            techniqueProcess: '',
-            outSource_date: ''
+            searchTPForm:{
+            designInfo:''          
+            outsourceCode:'',      
+            outsource_date: ''
             },
             TechniquePhaseVO:[],
+            _TechniquePhaseVO: [],
             outSourceDetailVisible: false,
             outSourceDetail:{},
             changeTechniqueStateForm:{
@@ -174,10 +172,52 @@ export default{
             }
            };
     },
+    created:function(){
+           this.fetchData();
+    },
     methods:{
+        fectchData(){
+            Vue.http.options.emulateJSON = true;
+            Vue.http.get(Api.backend_url + '/listManage/showAllTechniqueOutSource').then(response => {
+              this.TechniquePhaseVO = response.body.data;
+              this._TechniquePhaseVO =  this.TechniquePhaseVO;
+              console.log(response);
+            }, response => {
+              console.log(response);
+            });
+          
+        },
+        handlesearchTH(){
+              this.TechniquePhaseVO = this._TechniquePhaseVO.filter((el, idx, arr) => {
+              return el.designCode.indexOf(this.searchTPForm.designInfo) >= 0 || el.designName.indexOf(this.searchTPForm.designInfo) >= 0|| el.outsourceCode.indexOf(this.searchTPForm.outsourceCode) >= 0
+                    
+            });
+        },
+        searchTP(formName){
+          this.$refs[formName].validate((valid) => {
+          if (valid) {
+            Vue.http.options.emulateJSON = true;
+            Vue.http.post(Api.backend_url + '/listManage/InquireTechniquePhase', this.searchOutSourceForm).then(response => {
+              this.TechniquePhaseVO = response.body.data;
+              let newTH={};
+              for(let k in this.searchOutSourceForm){
+                newTH[k] = this.searchOutSourceForm[k];
+              }
+              this._TechniquePhaseVO.unshift(newTH);
+              console.log(response);
+            }, response => {
+              console.log(response);
+            });
+          
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });  
+        }
         showOutSourceDetail(outSourceCode){
             Vue.http.options.emulateJSON = true;
-            Vue.http.post(Api.backend_url + '/ListManage/showOutSourceDetail', this.outSourceCode).then(response => {
+            Vue.http.post(Api.backend_url + '/ListManage/showOutSourceDetail', outSourceID).then(response => {
               this.outSourceDetail = response.body.data;
               this.outSourceDetailVisible = true ;
               console.log(response);

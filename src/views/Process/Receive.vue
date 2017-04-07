@@ -86,6 +86,7 @@ export default{
            fetchData() {
               Vue.http.get(Api.backend_url + '/Process/receivelist').then(response => {
                     this.receiveInfo= response.body.data;
+                    this._receiveInfo = this.receiveInfo;
                      console.log(response);
                 }, response => {
                     console.log(response);
@@ -103,6 +104,13 @@ export default{
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Process/queryReceive', this.searchDeliveryForm).then(response => {
               this.receiveInfo = response.body.data;
+
+              let newRE={};
+              for(let k in this.searchDeliveryForm){
+                newRE[k] = this.searchDeliveryForm[k];
+              }
+              this._receiveInfo.unshift(newRE);
+
               console.log(response);
             }, response => {
               console.log(response);
