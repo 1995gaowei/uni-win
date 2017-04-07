@@ -103,6 +103,7 @@
 <script>
 import Vue from 'vue'
 import Api from '@/config/api'
+import router from '@/router'
 
 export default{
     data(){
@@ -191,6 +192,11 @@ export default{
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Processor/queryProcessor', this.processorInfo).then(response => {
                this.processor = response.body.data;
+                   let newProcessor={};
+                   for(let k in this.processor ){
+                     newProcessor[k] = this.processor[k];
+                   }
+                  this._processor.unshift(newProcessor);
                console.log(response);
             }, response => {
               console.log(response);
@@ -212,6 +218,11 @@ export default{
           if (valid) {
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Processor/addProcessor', this.newProcessorForm).then(response => {
+              let newProcessor={};
+              for(let k in this.newProcessorForm ){
+                  newProcessor[k] = this.newProcessorForm[k];
+              }
+              this._processor.unshift(newProcessor);
               this.$message('添加成功！');
               console.log(response);
             }, response => {
@@ -226,7 +237,9 @@ export default{
         takeDeliverying(formName){
           this.$refs[formName].validate((valid) => {
           if (valid) {
-            //此处需要跳转至receive_new界面，还没写*************************************************************
+           let _outsourceCode = this.takeDeliveryInfoForm.outsource_Code;
+           let _processorCode = this.takeDeliveryInfoForm.processorCode;            
+           router.push('/Receive_new/'+_outsourceCode+_processorCode);
           } else {
             console.log('error submit!!');
             return false;

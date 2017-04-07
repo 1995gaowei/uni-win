@@ -2,14 +2,14 @@
 <div>
      <el-form v-model="outsourceForm" ref="outsourceForm" class="demo-ruleForm" :rules="rules" :inline="true">
          <el-form-item label="外发单号" prop="outsourceForm">
-            <el-input v-model="outsourceForm.outsourceCode"></el-input>
+            <el-input v-model="outsourceForm.outsourceCode" @change="handlesearchOutSource"></el-input>
          </el-form-item>
-         <el-form-item label="款号" prop="outsourceForm">
-            <el-input v-model="outsourceForm.designCode"></el-input>
+         <el-form-item label="款式编号" prop="outsourceForm">
+            <el-input v-model="outsourceForm.designCode" @change="handlesearchOutSource"></el-input>
          </el-form-item>
          <br>
          <el-form-item label="外发时间" prop="outsourceForm">
-            <el-date-picker v-model="outsourceForm.outDate"></el-date-picker>
+            <el-date-picker v-model="outsourceForm.osDate" ></el-date-picker>
          </el-form-item>
          <el-form-item label="预交日期" prop="outsourceForm">
             <el-date-picker v-model="outsourceForm.finishDate"></el-date-picker>
@@ -18,21 +18,92 @@
             <el-button type="primary" @click="searchOut('outsourceForm')">查询</el-button>
          </el-form-item>
      </el-form>
-     <!--外发单详情列表，此处分页没有写,每行中的详情也没写****************************************-->
      <span>外发单详情>></span>
      <el-table v-model="outsourceDetails">
-         <el-table-column prop="picture" label="图片"></el-table-column>
-         <el-table-column prop="outsourceCodeInfo" label="外发单号">                 
+         <el-table-column label="图片">
+          <template scope="scope">
+          <img src="../../assets/logo.png" class="image">
+          </template>
+        </el-table-column>
+         <el-table-column label="外发单号"> 
+           <template  scope="scope">
+              <table>
+                 <tr>
+                   <td>单号:</td>
+                   <td>{{scope.row.osCode}}</td>
+                 </tr>
+                 <tr>
+                   <td>数量:</td>
+                   <td>{{scope.row.sum}}</td>
+                 </tr>
+                 <tr>
+                   <td>优先级:</td>
+                   <td>{{scope.row.osPriority}}</td>
+                 </tr>
+              </table>
+           </template>                
          </el-table-column>
-         <el-table-column prop="designInfo" label="款式信息">             
+         <el-table-column label="款式信息"> 
+          <template  scope="scope">
+              <table>
+                 <tr>
+                   <td>款号:</td>
+                   <td>{{scope.row.designCode}}</td>
+                 </tr>
+                 <tr>
+                   <td>名称:</td>
+                   <td>{{scope.row.designName}}</td>
+                 </tr>
+              </table>
+           </template>              
          </el-table-column>
-         <el-table-column prop="outsourceInfo" label="外发信息">           
+         <el-table-column label="外发信息">  
+         <template  scope="scope">
+              <table>
+                 <tr>
+                   <td>外发时间:</td>
+                   <td>{{scope.row.osDate}}</td>
+                 </tr>
+                 <tr>
+                   <td>预约时间:</td>
+                   <td>{{scope.row.finishDate}}</td>
+                 </tr>
+              </table>
+           </template>          
          </el-table-column>
-         <el-table-column prop="processorInfo" label="加工方">         
+         <el-table-column label="加工方">   
+         <template  scope="scope">
+              <table>
+                 <tr>
+                   <td>名称:</td>
+                   <td>{{scope.row.processorName}}</td>
+                 </tr>
+                 <tr>
+                   <td>电话:</td>
+                   <td>{{scope.row.processorMobile}}</td>
+                 </tr>
+              </table>
+           </template>       
          </el-table-column>
          <el-table-column prop="outsourceState" label="状态"></el-table-column>
          <el-table-column label="操作">
-              <!--此处添加几个操作按钮，还没想好怎么排版好看-->        
+              
+              <template scope="scope">
+                 <el-button-group>
+                   <el-tooltip content="修改" placement="top">
+                    <el-button type="primary" size="small" @click="handleUpdate(scope.row.outsourceCode)" icon="edit"></el-button>
+                   </el-tooltip>
+                   <el-tooltip content="废弃" placement="top">
+                    <el-button type="primary" size="small" @click="handleAbandon(scope.row.outsourceCode)" icon="delete"></el-button>
+                   </el-tooltip>
+                   <el-tooltip content="收货" placement="top">
+                    <el-button type="primary" size="small" @click="handleReceive(scope.row.outsourceCode,scope.row.outsourceState)" icon="check"></el-button>
+                   </el-tooltip>
+                   <el-tooltip content="打印" placement="top">
+                    <el-button type="primary" size="small" @click="handlePrint(scope.row.outsourceCode)" icon="document"></el-button>
+                   </el-tooltip>
+                 </el-button-group>
+              </template>
          </el-table-column>
      </el-table>
      <!--外发单收货-->
@@ -50,9 +121,12 @@
          </el-form-item>
          <el-form-item>
                <el-button type="primary" @click="addReceiveOutSource('ReceiveOutSourceForm')">保存</el-button>
-               <el-button type="primary" @click="ReceiveVisible = false " >关闭</el-button>
+               
          </el-form-item>
      </el-form>
+     <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="ReceiveVisible = false " >关闭</el-button>
+     </div>
    </el-dialog>
    <!--废弃外发单-->
    <el-dialog v-model="abandonVisible" title="废弃外发单">
@@ -62,15 +136,19 @@
             </el-form-item>
             <el-form-item >
                 <el-button type="primary" @click="abandonOutSource('outsourceCode')">废弃</el-button>
-                <el-button type="primary" @click="abandonVisible = false">关闭</el-button>
+               
             </el-form-item>
       </el-form>
+       <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="abandonVisible = false">关闭</el-button>
+     </div>
    </el-dialog>
 </div>
 </template>
 <script>
 import Vue from 'vue'
 import Api from '@/config/api'
+import router from '@/router'
 
 export default{
     data(){
@@ -78,10 +156,11 @@ export default{
             outsourceForm:{
                 outsourceCode: '',
                 designCode: '',
-                outDate: '',
+                osDate: '',
                 finishDate: ''
             },
             outsourceDetails: [],
+            _outsourceDetails: [],
             ReceiveVisible: false,
             abandonVisible: false,
             ReceiveOutSourceForm:{
@@ -90,7 +169,7 @@ export default{
             },
             outsourceCode:'',
             rules:{
-                outDate:[
+                osDate:[
                     {type:'date' ,message:'请输入日期类型'}
                 ],
                 finishDate:[
@@ -110,12 +189,18 @@ export default{
                     console.log(response);
                 });
           },
+          handlesearchOutSource(){
+            this.outsourceDetails = this._outsourceDetails.filter((el, idx, arr) => {
+              return el.outsourceCode.indexOf(this.outsourceForm.outsourceCode) >= 0 || el.designCode.indexOf(this.outsourceForm.designCode) >= 0
+            });
+          },
+        
          addReceiveOutSource(formName){
           this.$refs[formName].validate((valid) => {
           if (valid) {
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Process/changeState', this.ReceiveOutSourceForm).then(response => {
-                this.$message('收货单提交成功');
+                 this.$message('收货单提交成功');
                  console.log(response);
             }, response => {
               console.log(response);
@@ -132,6 +217,11 @@ export default{
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Processor/queryOutSource', this.outSourceForm).then(response => {
                  this.outsourceDetails = response.body.data;
+                 let newOS={};
+                 for(let k in this.outsourceForm){
+                     newOS[k] = this.outsourceForm[k]; 
+                 }
+                 this._outsourceDetails.unshift(newOS);
                  console.log(response);
             }, response => {
               console.log(response);
@@ -145,17 +235,37 @@ export default{
          abandonOutSource(outsourceCode){
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Process/cancelOutSource', outsourceCode).then(response => {
+                //此处需要跳转到cancleoutsource*************************************************
                  console.log(response);
             }, response => {
               console.log(response);
             });
          },
-         updateOutSource(outsourceCode){
-            //var url=getRootPath()+"/Process/printOutSource?codeID="+selectedCode;   ************
-			//	window.open(url);
-         },
-         printOutSource(outsourceCode){
-           // location.href= getRootPath() + "/Process/getOutSource?codeID="+outsourceCode;    **********
+          handleAbandon(outsourceCode){
+               abandonVisible=true;
+               this.outsourceCode = outsourceCode ;
+
+          },
+          handleReceive(outsourceCode,outsourceState){
+               ReceiveVisible = true ;
+               this.ReceiveOutSourceForm.outsourceCode = outsourceCode ;
+               this.ReceiveOutSourceForm.outsourceState = outsourceState;
+          },
+         handleUpdate(outsourceCode){
+            Vue.http.options.emulateJSON = true;
+            Vue.http.post(Api.backend_url + '/Processor/getOutSource',outsourceCode).then(response => {
+                 let newOS=response.body.data;
+                 router.push('/Process/outsource_modify/'+newOS);
+                 console.log(response);
+            })
+          },
+         handlePrint(outsourceCode){
+           Vue.http.options.emulateJSON = true;
+           Vue.http.post(Api.backend_url + '/Processor/printOutSource',outsourceCode).then(response => {
+                 let newOS=response.body.data;
+                 router.push('/Process/outsource_print/'+newOS);
+                 console.log(response);
+            })
          }
 
     }

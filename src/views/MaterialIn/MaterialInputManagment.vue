@@ -8,7 +8,7 @@
         <el-button type="primary" @click="search('MaterialInputDateForm')">查询</el-button>
         </el-form-item>
     </el-form>
-    <!--此处分页还没写-->
+   
     <el-table style="width:100%">
     <el-table :data="result" style="width:50%">
         <el-table-column prop="materialInputDate" label="入库时间" v-click="showMaterialInDetail('materialinputID')">
@@ -18,7 +18,7 @@
         <el-table-column prop="materialInputNumber" label="入库数量" >
         </el-table-column>
     </el-table>
-     <!--这个地方点击弹出物料详细框不知道对不对-->
+     <!--这个地方点击弹出物料详细框不知道对不对**********************************-->
     <el-table :data="materials" style="width:50%">         
         <el-table-column prop="materialName" label="面料名称" v-click="materialDetail('result.materialCode')">
         </el-table-column>

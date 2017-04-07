@@ -3,13 +3,13 @@
     <!--查询表单-->
        <el-form v-model="searchDeliveryForm" ref="searchDeliveryForm" :rules="rules" class="demo-ruleForm" :inline="true">
            <el-form-item label="加工方名称" prop="processorName">
-                <el-input v-model="searchDeliveryForm.processorName"></el-input>
+                <el-input v-model="searchDeliveryForm.processorName" @change=" handleSearchReceive"></el-input>
            </el-form-item>
             <el-form-item label="收货时间" prop="DeliveryDate">
-                <el-date-picker v-model="searchDeliveryForm.DeliveryDate" :editable="false"  placeholder="请选择日期"></el-date-picker>
+                <el-date-picker v-model="searchDeliveryForm.receiveDate" :editable="false"  placeholder="请选择日期" ></el-date-picker>
            </el-form-item>
            <el-form-item label="款号" prop="designId">
-                <el-input v-model="searchDeliveryForm.designId"></el-input>
+                <el-input v-model="searchDeliveryForm.designCode"  @change=" handleSearchReceive"></el-input>
            </el-form-item>
            <el-form-item>
                 <el-button type="primary" @click="searchDelivery('searchDeliveryForm')">查询</el-button>
@@ -22,7 +22,11 @@
            <el-table-column prop="receiveDate"   label="收货时间"></el-table-column>
            <el-table-column prop="receiverName"  label="收货人"> </el-table-column>
            <el-table-column prop="receiveNumber" label="数量"></el-table-column>
-           <el-table-column prop="picture"       label="图片"> </el-table-column>
+           <el-table-column label="图片"> 
+             <template>
+                <img src="../../assets/logo.png" class="image">
+            </template>
+           </el-table-column>
            <el-table-column prop="processorDistrict" label="加工方区域"></el-table-column>
            <el-table-column prop="receiveType"   label="收货类型"></el-table-column>
            <el-table-column                      label="操作">
@@ -42,9 +46,11 @@
                    </el-form-item>
                    <el-form-item>
                       <el-button type="danger" @click="deleteReceiveTo('receiveID')">废弃</el-button>
-                      <el-button type="danger" @click="deleteReceiveVisiable = false">关闭</el-button>
                    </el-form-item>
               </el-form>
+              <div slot="footer" class="dialog-footer">
+                   <el-button type="danger" @click="deleteReceiveVisiable = false">关闭</el-button>
+              </div>
        </el-dialog>
     </div> 
 </template>
@@ -52,16 +58,18 @@
 <script>
 import Vue from 'vue'
 import Api from '@/config/api'
+import router from '@/router'
 
 export default{
       data(){
           return{
              searchDeliveryForm:{
                  processorName: '',
-                 DeliveryDate: '',
-                 designId: ''
+                 receiveDate: '',
+                 designCode: ''
              },
              receiveInfo:[],
+             _receiveInfo:[],
              deleteReceiveVisiable: false ,
              receiveID:'',
              rules:{
@@ -82,6 +90,12 @@ export default{
                 }, response => {
                     console.log(response);
                 });
+          },
+          //这个地方不知道_receiverInfo会不会有designCode******************************8
+          handleSearchReceive() {
+            this.receiveInfo = this._receiveInfo.filter((el, idx, arr) => {
+              return el.processorName.indexOf(this.searchDeliveryForm.processorName) >= 0 ||  el.designCode.indexOf(this.searchDeliveryForm.designCode)
+            });
           },
           searchDelivery(formName){
           this.$refs[formName].validate((valid) => {
@@ -115,10 +129,25 @@ export default{
 
         },
         handleEdit(receiveID){
-              //此处为跳转至新增收货单界面location.href= getRootPath() + "/Process/getReceive?receiveID="+selectedID;   
+             Vue.http.options.emulateJSON = true;
+             Vue.http.post(Api.backend_url + '/Process/getReceive', this.receiveID).then(response => {
+               let receiveInfo = response.body.data;
+               router.push('/Receive_Modify/'+receiveInfo);
+              console.log(response);
+            }, response => {
+              console.log(response);
+            });
+             
         },
         handlePrint(receiveID){
-            //此处为跳转至打印界面url=getRootPath()+"/Process/printReceive?receiveID="+selectedID;
+             Vue.http.options.emulateJSON = true;
+             Vue.http.post(Api.backend_url + '/Process/printReceive', this.receiveID).then(response => {
+               let receiveInfo = response.body.data;
+               router.push('/Receive_print/'+receiveInfo);
+              console.log(response);
+            }, response => {
+              console.log(response);
+            });
         }
 
       }

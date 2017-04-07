@@ -32,63 +32,58 @@
            </el-form-item>
        </el-form>
        <!--外发单详情-->
-       <span>外发单详情>></span>
-       <!--此处添加新行之后数据不能显示,未找到原因*************************************************-->
-        <el-table  :data="OutSourceForm.details" >
-           <el-table-column prop="receiveColor" label="颜色">
-           </el-table-column>
-           <el-table-column prop="receiveXS" label="X">
-           </el-table-column>
-           <el-table-column prop="receiveS" label="S">
-           </el-table-column>
-           <el-table-column prop="receiveM" label="M">
-           </el-table-column>
-           <el-table-column prop="receiveL" label="L">
-           </el-table-column>
-           <el-table-column prop="receiveXL" label="XL">
-           </el-table-column>
-           <el-table-column prop="receiveXXL" label="XXL">
-           </el-table-column>
-           <el-table-column prop="receiveTotal" label="合计">
-           </el-table-column>
-           <el-table-column  label="操作">
-               <template scope="scope">
-               <el-button type="primary" size="small" icon="delete" @click="deleteDetail(scope.$index)">                 
-               </el-button>
+      <span>外发单详情>></span>
+      <table class="table table-striped" id="tab-detail">
+            <tr>
+                <th>颜色</th>
+                <th>XS</th>
+                <th>S</th>
+                <th>M</th>
+                <th>L</th>
+                <th>XL</th>
+                <th>XXL</th>
+                <th>合计</th>
+                <th>操作</th>
+           </tr>
+           <template  v-for="k in OutSourceForm.details">
+           <tr>
+                <td>{{k.outsourceColor}}</td>
+                <td>{{k.outsourceXS}}</td>
+                <td>{{k.outsourceS}}</td>
+                <td>{{k.outsourceM}}</td>
+                <td>{{k.outsourceL}}</td>
+                <td>{{k.outsourceXL}}</td>
+                <td>{{k.outsourceXXL}}</td>
+                <td>{{k.outsourceTotal}}</td>
+                <td>
+                 <template>
+                   <el-button type="primary" icon="delete" @click="deleteDetail(k.$index)">                 
+                 </el-button>
                </template>
-           </el-table-column>
-        </el-table>
-          <el-form v-model="newDetailForm" ref="newDetailForm" :rules="rules" class="demo-dynamic demo-ruleForm" :inline="true">
-                <el-form-item style="width:8%" prop="outsourceColor">
-                    <el-input v-model="newDetailForm.outsourceColor"></el-input>
-                </el-form-item>        
-                <el-form-item style="width:8%" prop="outsourceXS">
-                    <el-input v-model.number="newDetailForm.outsourceXS"></el-input>
-                </el-form-item> 
-                <el-form-item style="width:8%" prop="outsourceS">
-                    <el-input v-model.number="newDetailForm.outsourceS"></el-input>
-                </el-form-item> 
-                <el-form-item style="width:8%" prop="outsourceM">
-                    <el-input v-model.number="newDetailForm.outsourceM"></el-input>
-                </el-form-item> 
-                <el-form-item style="width:8%" prop="outsourceL">
-                    <el-input v-model.number="newDetailForm.outsourceL"></el-input>
-                </el-form-item> 
-                 <el-form-item style="width:8%" prop="outsourceXL">
-                    <el-input v-model.number="newDetailForm.outsourceXL"></el-input>
-                </el-form-item>                 
-                <el-form-item style="width:8%" prop="outsourceXXL">
-                    <el-input v-model.number="newDetailForm.outsourceXXL"></el-input>
-                </el-form-item> 
-                <el-form-item style="width:8%" prop="outsourceTotal">
-                    <el-input v-model.number="newDetailForm.outsource" :disabled="true"></el-input>
-                </el-form-item> 
-                <el-form-item style="width:4%" >
-                    <el-button type="primary"  size="small" icon="plus" @click="addDetail('newDetailForm')">
-                    </el-button>
-                </el-form-item>
-          </el-form>
+                </td>
+           </tr>
+           </template>
+           <tr>
+                <td><el-input     v-model="newDetailForm.outsourceColor" ></el-input></td>
+                <td><el-input     v-model.number="newDetailForm.outsourceXS"></el-input></td>
+                <td><el-input     v-model.number="newDetailForm.outsourceS"></el-input></td>
+                <td><el-input     v-model.number="newDetailForm.outsourceM"></el-input></td>
+                <td><el-input     v-model.number="newDetailForm.outsourceL"></el-input></td>
+                <td><el-input     v-model.number="newDetailForm.outsourceXL"></el-input></td>
+                <td><el-input     v-model.number="newDetailForm.outsourceXXL"></el-input></td>
+                <td><el-input     v-model.number="newDetailForm.outsourceTotal" :disabled="true"></el-input></td>
+                <td>
+                   <template>
+                     <el-button type="primary" icon="plus" @click="addDetail"></el-button>
+                   </template>
+                </td>
+            </tr>
+        </table>    
+        
+        <br>
          
+
+
           <el-form v-model="OutSourceForm" ref="OutSourceForm2" :rules="rules" class="demo-ruleForm" :inline="true">
               <el-form-item prop="labourCost" label="实际工价">
                    <el-input v-model="OutSourceForm.labourCost"></el-input>
@@ -122,6 +117,7 @@
 <script>
 import Vue from 'vue'
 import Api from '@/config/api'
+import router from '@/router'
 
 export default{
     data(){
@@ -207,20 +203,23 @@ export default{
                 }
         };
     },
+    created: function()  {
+              this.OutSourceForm = router.params.newOS;              
+      },
     methods:{
         deleteDetail(index){
             this.newOutSourceForm.details.splice(index,1);
         },
-        addDetail(formName){
-          this.$refs[formName].validate((valid) => {
-          if (valid) {
+        addDetail(){
+             this.newDetailForm.outoutsourceTotal=this.newDetailForm.outoutsourceL+
+                                                  this.newDetailForm.outoutsourceM+
+                                                  this.newDetailForm.outoutsourceS+
+                                                  this.newDetailForm.outoutsourceXL+
+                                                  this.newDetailForm.outoutsourceXXL+
+                                                  this.newDetailForm.outoutsourceXS;
              this.newOutSourceForm.details.push(this.newDetailForm);
-             this.newDetailForm=this.newDetailForm2;
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });       
+             this.newDetailForm = this.newDetailForm2 ;
+        
         },
         addNewSource(formName){
           this.$refs[formName].validate((valid) => {
