@@ -13,14 +13,14 @@
             <template slot="title"><i class="el-icon-menu"></i>入库管理</template>
             <el-menu-item-group>
                 <el-menu-item index="/MaterialIn/MaterialInput"><i class="el-icon-d-arrow-right"></i>入库</el-menu-item>
-                <el-menu-item index="/MaterialIn/MaterialInputManagment"><i class="el-icon-d-arrow-right"></i>入库管理</el-menu-item>
+                <el-menu-item index="/MaterialIn/MaterialInputList"><i class="el-icon-d-arrow-right"></i>入库历史</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="3">
             <template slot="title"><i class="el-icon-menu"></i>出库管理</template>
             <el-menu-item-group>
-                <el-menu-item index="3-1"><i class="el-icon-d-arrow-right"></i>出库</el-menu-item>
-                <el-menu-item index="3-2"><i class="el-icon-d-arrow-right"></i>出库管理</el-menu-item>
+                <el-menu-item index="/MaterialOut/MaterialOutput"><i class="el-icon-d-arrow-right"></i>出库</el-menu-item>
+                <el-menu-item index="/MaterialOut/MaterialOutputList"><i class="el-icon-d-arrow-right"></i>出库历史</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">

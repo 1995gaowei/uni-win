@@ -8,7 +8,10 @@ import DesignList from '@/views/Material/DesignList'
 import DesignDetail from '@/views/Material/DesignDetail'
 
 import MaterialInput from '@/views/MaterialIn/MaterialInput'
-import MaterialInputManagment from '@/views/MaterialIn/MaterialInputManagment'
+import MaterialInputList from '@/views/MaterialIn/MaterialInputList'
+
+import MaterialOutput from '@/views/MaterialOut/MaterialOutput'
+import MaterialOutputList from '@/views/MaterialOut/MaterialOutputList'
 
 import ProcessorManagment from '@/views/Process/ProcessorManagment'
 import Receive from '@/views/Process/Receive'
@@ -54,9 +57,19 @@ export default new Router({
       component: MaterialInput
     },
     {
-      path: '/MaterialIn/MaterialInputManagment',
-      name: 'MaterialInputManagment',
-      component: MaterialInputManagment
+      path: '/MaterialIn/MaterialInputList',
+      name: 'MaterialInputList',
+      component: MaterialInputList
+    },
+    {
+      path: '/MaterialOut/MaterialOutput',
+      name: 'MaterialOutput',
+      component: MaterialOutput
+    },
+    {
+      path: '/MaterialOut/MaterialOutputList',
+      name: 'MaterialOutputList',
+      component: MaterialOutputList
     },
     {
       path: '/Process/ProcessorManagment',
