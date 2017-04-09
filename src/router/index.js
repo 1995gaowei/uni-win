@@ -23,6 +23,8 @@ import TechniqueList from '@/views/ListManage/TechniqueList'
 import TailorPhaseList from '@/views/ListManage/TailorPhaseList'
 import outSourceManage from '@/views/ListManage/outSourceManage'
 
+import PurchaseList from '@/views/Purchase/PurchaseList'
+
 Vue.use(Router)
 
 export default new Router({
@@ -110,6 +112,11 @@ export default new Router({
       path: '/ListManage/outSourceManage',
       name: 'outSourceManage',
       component: outSourceManage
+    },
+    {
+      path: '/Purchase/PurchaseList',
+      name: 'PurchaseList',
+      component: PurchaseList
     }
 
   ]

@@ -279,11 +279,6 @@ export default{
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/ListManage/InquireTaiorPhase', this.searchTailorManageForm).then(response => {
               this.TailorManageVOList = response.body.data;
-              let newT={};
-              for(let k in this.searchTailorManageForm){
-                  newT[k] = this.searchTailorManageForm[k];
-              }
-              this._TailorManageVOList.unshift(newT);
               console.log(response);
             }, response => {
               console.log(response);

@@ -219,11 +219,6 @@ export default{
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/listManage/InquireTechniquePhase', this.searchOutSourceForm).then(response => {
               this.TechniquePhaseVO = response.body.data;
-              let newTH={};
-              for(let k in this.searchOutSourceForm){
-                newTH[k] = this.searchOutSourceForm[k];
-              }
-              this._TechniquePhaseVO.unshift(newTH);
               console.log(response);
             }, response => {
               console.log(response);

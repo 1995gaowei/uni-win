@@ -218,11 +218,6 @@ export default{
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Processor/queryOutSource', this.outSourceForm).then(response => {
                  this.outsourceDetails = response.body.data;
-                 let newOS={};
-                 for(let k in this.outsourceForm){
-                     newOS[k] = this.outsourceForm[k]; 
-                 }
-                 this._outsourceDetails.unshift(newOS);
                  console.log(response);
             }, response => {
               console.log(response);

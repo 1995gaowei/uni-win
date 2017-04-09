@@ -147,7 +147,7 @@ export default{
           if (valid) {
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Process/addReceive', this.addReceiveForm).then(response => {
-              this.$message('修改收货单信息成功!');
+              this.$message('增加收货单信息成功!');
               console.log(response);
             }, response => {
               console.log(response);
