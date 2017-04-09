@@ -1,16 +1,14 @@
 <template>
   <div>
     <el-form v-model="searchOutSourceForm" ref="searchOutSourceForm" class="demo-ruleForm" :inline="true" >
-        <el-form-item prop="designCode" label="款式编号">
-            <el-input v-model="searchOutSourceForm.designCode"></el-input>
-        </el-form-item>
-        <el-form-item prop="designName" label="款式名称">
-            <el-input v-model="searchOutSourceForm.designName"></el-input>
-        </el-form-item>
+        <el-form-item prop="designInfo" label="款式信息">
+            <el-input v-model="searchOutSourceForm.designInfo" @change="handleSearchS" placeholder="请输入款式/款号"></el-input>
+        </el-form-item> 
         <el-form-item prop="outSource_date" label="截至参考外发时间">
             <el-date-picker v-model="searchOutSourceForm.outSource_date"></el-date-picker>
         </el-form-item>
-         <el-form-item prop="outSourceCode" label="订单编号">
+        <br>
+         <el-form-item prop="outSourceCode" label="订单编号" @change="handleSearchS">
             <el-input v-model="searchOutSourceForm.outSourceCode"></el-input>
         </el-form-item>
         <el-form-item prop="inquiryProgress" label="状态">
@@ -24,13 +22,67 @@
         </el-form-item>
     </el-form>
     <el-table v-model="OutSourceManageVO">
-       <el-table-column prop="picture" label="图片"></el-table-column>
-       <el-table-column prop="outSource" label="订单编号"></el-table-column>
-       <el-table-column prop="designInfo" label="款式信息"></el-table-column>
-       <el-table-column prop="" label="外发时间"></el-table-column>
-       <el-table-column prop="" label="外发信息"></el-table-column>
+       <el-table-column  label="图片">
+             <template>
+                <img src="../../assets/logo.png" class="image">
+             </template>
+       </el-table-column>
+       <el-table-column label="订单编号">
+        <template scope="scope">
+                <table>
+                   <tr>
+                   <td>订单编号：</td><td>{{scope.row.outSourceCode}}</td>
+                   </tr>
+                   <tr>
+                   <td>工序：</td><td><font color="red">{{scope.row.designTechProcedure_finished}}</font></td><td><font color="black">{{scope.row.designTechProcedure_unfinished}}</font></td>
+                   </tr>
+                   <tr>
+                   <td>状态：</td><td>{{scope.row.orderPriority}}</td>
+                   </tr>
+                </table>
+             </template>
+       
+       </el-table-column>
+       <el-table-column label="款式信息">
+       <template scope="scope">
+                <table>
+                  <tr>
+                     <td>款号:</td><td>{{scope.row.designCode}}</td>
+                  </tr>
+                  <tr>
+                     <td>款名:</td><td>{{scope.row.designName}}</td>
+                  </tr>
+                </table>
+             </template>
+       </el-table-column>
+       <el-table-column  label="外发时间">
+             <template scope="scope">
+                <table>
+                  <tr>
+                     <td>实际时间:</td><td>{{scope.row.referenceOutDate}}</td>
+                  </tr>
+                  <tr>
+                     <td>参考时间:</td><td>{{scope.row.referenceOutDate}}</td>
+                  </tr>
+                </table>
+             </template>
+       </el-table-column>
+       <el-table-column  label="外发信息">
+              <template scope="scope">
+                <table>
+                  <tr>
+                     <td>已外发<td>
+                  </tr>
+                  <tr>
+                     <td>负责人:</td><td>{{scope.row.userName}}</td>
+                  </tr>
+                </table>
+             </template>
+       </el-table-column>
        <el-table-column  label="操作">
-            <el-button type="primary" size="small" @click="showOutSourceDetail('OutSourceManageVO.outSourceID')">详情</el-button>
+            <template scope="scope">
+            <el-button type="primary" size="small" @click="showOutSourceDetail('scope.row.outSourceID')">详情</el-button>
+            </template>
        </el-table-column>
     </el-table>
             <!--外发单详情会话框-->
@@ -122,7 +174,9 @@
               </td>
             </tr>
          </table>
+         <div slot="footer" class="dialog-footer">
          <el-button type="primary" @click="outSourceDetailVisible = false"></el-button>
+         </div>
       </el-dialog>
   </div>
 </template>
@@ -134,24 +188,45 @@ export default{
     data(){
         return{
             searchOutSourceForm:{
-                designCode:'',
-                designName:'',
+                designInfo:'',
                 outSource_date:'',
                 outSourceCode:'',
                 inquiryProgress:''
             },
             OutSourceManageVO:[],
+            _OutSourceManageVO: [],
             outSourceDetail:{},
             outSourceDetailVisible: false
         };
     },
+    created:function(){
+      this.fetchData();
+    },
     methods:{
+       fetchData(){
+         Vue.http.get(Api.backend_url + '/listManage/outSourceManage').then(response => {
+                    this.OutSourceManageVO = response.body.data;
+                    this._OutSourceManageVO = this.OutSourceManageVO;
+                }, response => {
+                    console.log(response);
+                });
+       },
+       handleSearchS(){
+            this.OutSourceManageVO = this._OutSourceManageVO.filter((el, idx, arr) => {
+              return el.designCode.indexOf(this.searchOutSourceForm.designInfo) >= 0 || el.designName.indexOf(this.searchOutSourceForm.designInfo) >= 0 || el.outSourceCode.indexOf(this.searchOutSourceForm.outSourceCode) >= 0               
+            });
+       },
         searchOutSource(formName){
           this.$refs[formName].validate((valid) => {
           if (valid) {
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/ListManage/InquireOutSource', this.searchOutSourceForm).then(response => {
               this.OutSourceManageVO = response.body.data;
+              let newOS = {};
+              for(let k in this.searchOutSourceForm){
+                newOS[k] = this.searchOutSourceForm[k];
+              }
+              this._OutSourceManageVO.unshift(newOS);
               console.log(response);
             }, response => {
               console.log(response);

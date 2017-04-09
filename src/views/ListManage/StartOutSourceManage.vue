@@ -26,7 +26,7 @@
          <template scope="scope">
             <table>
             <tr><td>订单编号:</td><td>{{scope.row.outSourceCode}}</td></tr>
-            <tr><td>工序:</td><td>{{scope.row.designTechProcedure}}</td></tr>
+            <tr><td>工序:</td><td><font color="red">{{scope.row.designTechProcedure_finished}}</font></td><td><font color="black">{{scope.row.designTechProcedure_unfinished}}</font></td></tr>
             <tr><td>状态:</td><td>{{scope.row.orderPriority}}</td></tr>
             </table>
          </template>

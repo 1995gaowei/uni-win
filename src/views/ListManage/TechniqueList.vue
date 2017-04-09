@@ -16,10 +16,30 @@
       </el-form>
       <!--工艺排单列表-->
       <el-table v-model="TechniquePhaseVO">
-         <el-table-column prop="TechniquePhaseVO.picture" label="图片"></el-table-column>
-         <el-table-column prop="TechniquePhaseVO.outSourceInfo" label="订单编号"></el-table-column>
-         <el-table-column prop="TechniquePhaseVO.designInfo" label="款式信息"></el-table-column>
-         <el-table-column prop="TechniquePhaseVO.TechniqueList" label="工艺单"></el-table-column>
+         <el-table-column label="图片">
+          <template scope="scope">
+          <img src="../../assets/logo.png" class="image">
+          </template>
+         </el-table-column>
+         <el-table-column  label="订单编号">
+         <template scope="scope">
+            <table>
+            <tr><td>订单编号:</td><td>{{scope.row.outSourceCode}}</td></tr>
+            <tr><td>工序:</td><td><font color="red">{{scope.row.designTechProcedure_finished}}</font></td><td><font color="black">{{scope.row.designTechProcedure_unfinished}}</font></td></tr>
+            <tr><td>状态:</td><td>{{scope.row.orderPriority}}</td></tr>
+             <tr  v-if="scope.row.tailorStartingTime"><td>开始时间:</td><td>{{scope.row.techPhaseStartingTime}}</td></tr>        
+            </table>
+         </template>
+         </el-table-column>
+         <el-table-column  label="款式信息">
+         <template scope="scope">
+            <table>
+            <tr><td>款号:</td><td>{{scope.row.designCode}}</td></tr>
+            <tr><td>款名:</td><td>{{scope.row.designName}}</td></tr>        
+            </table>
+           </template>
+         </el-table-column>
+         <el-table-column prop="TechniquePhaseVO.designInfo" label="工艺单"></el-table-column>
          <el-table-column prop="TechniquePhaseVO.userName" label="工艺负责人"></el-table-column>
          <el-table-column prop="TechniquePhaseVO.finishDate" label="外发交期"></el-table-column>
          <el-table-column prop="TechniquePhaseVO.inInWarehouse" label="面料进度"></el-table-column>
@@ -151,7 +171,7 @@ export default{
     data(){
         return{
             searchTPForm:{
-            designInfo:''          
+            designInfo:'' ,         
             outsourceCode:'',      
             outsource_date: ''
             },
@@ -214,7 +234,7 @@ export default{
             return false;
           }
         });  
-        }
+        },
         showOutSourceDetail(outSourceCode){
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/ListManage/showOutSourceDetail', outSourceID).then(response => {
