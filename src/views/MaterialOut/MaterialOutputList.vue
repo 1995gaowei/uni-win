@@ -8,7 +8,7 @@
       @change="handleSearchMaterialOutput">
     </el-input>
 
-    <el-table :data="materialOutputList" style="width:100%">
+    <el-table :data="materialOutputList" style="width:100%" border  max-height="500">
         <el-table-column prop="materialOutputDate" sortable label="出库日期" width="120" :formatter="dateFormatter"></el-table-column>
         <el-table-column prop="material.materialCode" label="物料编码"></el-table-column>
         <el-table-column prop="material.materialName" label="物料名称"></el-table-column>
@@ -30,8 +30,7 @@ export default {
     return{
     materialOutputSearchInfo: '',
     materialOutputList: [],
-    dialogMaterialVisible: false,
-    formLabelWidth: '120px',
+    _materialOutputList: []
     };
   },
   created: function () {

@@ -135,7 +135,7 @@
         <el-form-item label="申请数量" prop="materialApplyVol">
             <el-input v-model.number="applyMaterialForm.materialApplyVol"></el-input>
         </el-form-item>
-        <el-form-item label="备注">
+        <el-form-item label="备注" prop="applyComment">
           <el-input
             type="textarea"
             :autosize="{ minRows: 2 }"
@@ -173,7 +173,8 @@
             materialApplyVol: [
               { required: true, message:'请输入申请数量' },
               { type: 'number', message: '申请数量必须为数字值' }
-            ]
+            ],
+            applyComment:[]
           },
 
           addMaterialDialogVisible: false,
