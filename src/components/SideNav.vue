@@ -44,7 +44,7 @@
         <el-submenu index="6">
             <template slot="title"><i class="el-icon-menu"></i>采购管理</template>
             <el-menu-item-group>
-                <el-menu-item index="6-1"><i class="el-icon-d-arrow-right"></i>面料采购单管理</el-menu-item>
+                <el-menu-item index="/Purchase/PurchaseList"><i class="el-icon-d-arrow-right"></i>面料采购单管理</el-menu-item>
                 <el-menu-item index="6-2"><i class="el-icon-d-arrow-right"></i>辅料采购单管理</el-menu-item>
             </el-menu-item-group>
         </el-submenu>

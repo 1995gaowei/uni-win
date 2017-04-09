@@ -71,7 +71,7 @@
               <template scope="scope">
                 <table>
                   <tr>
-                     <td>已外发<td>
+                     <td>已外发</td>
                   </tr>
                   <tr>
                      <td>负责人:</td><td>{{scope.row.userName}}</td>
@@ -222,11 +222,6 @@ export default{
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/ListManage/InquireOutSource', this.searchOutSourceForm).then(response => {
               this.OutSourceManageVO = response.body.data;
-              let newOS = {};
-              for(let k in this.searchOutSourceForm){
-                newOS[k] = this.searchOutSourceForm[k];
-              }
-              this._OutSourceManageVO.unshift(newOS);
               console.log(response);
             }, response => {
               console.log(response);

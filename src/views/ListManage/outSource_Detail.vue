@@ -1,4 +1,5 @@
    <template>
+      <div>
         <h1>排单详情</h1>
          <table  cellSpacing="80px">
             <tr>

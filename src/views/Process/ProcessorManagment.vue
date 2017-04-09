@@ -192,11 +192,6 @@ export default{
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Processor/queryProcessor', this.processorInfo).then(response => {
                this.processor = response.body.data;
-                   let newProcessor={};
-                   for(let k in this.processor ){
-                     newProcessor[k] = this.processor[k];
-                   }
-                  this._processor.unshift(newProcessor);
                console.log(response);
             }, response => {
               console.log(response);

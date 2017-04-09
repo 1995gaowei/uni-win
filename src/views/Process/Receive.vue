@@ -95,7 +95,7 @@ export default{
           //这个地方不知道_receiverInfo会不会有designCode******************************8
           handleSearchReceive() {
             this.receiveInfo = this._receiveInfo.filter((el, idx, arr) => {
-              return el.processorName.indexOf(this.searchDeliveryForm.processorName) >= 0 ||  el.designCode.indexOf(this.searchDeliveryForm.designCode)
+              return el.processorName.indexOf(this.searchDeliveryForm.processorName) >= 0 ||  el.designCode.indexOf(this.searchDeliveryForm.designCode) >= 0
             });
           },
           searchDelivery(formName){
@@ -104,13 +104,6 @@ export default{
             Vue.http.options.emulateJSON = true;
             Vue.http.post(Api.backend_url + '/Process/queryReceive', this.searchDeliveryForm).then(response => {
               this.receiveInfo = response.body.data;
-
-              let newRE={};
-              for(let k in this.searchDeliveryForm){
-                newRE[k] = this.searchDeliveryForm[k];
-              }
-              this._receiveInfo.unshift(newRE);
-
               console.log(response);
             }, response => {
               console.log(response);
