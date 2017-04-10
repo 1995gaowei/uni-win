@@ -5,8 +5,8 @@
         <side-nav></side-nav>
         <div class="content">
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item class="nav1">物料管理</el-breadcrumb-item>
-          <el-breadcrumb-item class="nav2">物料新增</el-breadcrumb-item>
+          <el-breadcrumb-item class="nav1">{{$store.state.title1}}</el-breadcrumb-item>
+          <el-breadcrumb-item class="nav2">{{$store.state.title2}}</el-breadcrumb-item>
         </el-breadcrumb>
         <el-card class="main-view">
           <router-view></router-view>

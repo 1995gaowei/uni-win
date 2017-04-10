@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/vuex/store'
+
 import Hello from '@/components/Hello'
 
 import MaterialList from '@/views/Material/MaterialList'
@@ -30,48 +32,102 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Hello',
-      component: Hello
+      path: '/', 
+      name: 'Home', 
+      component: MaterialList,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "物料管理", title2: "物料管理"
+        });
+        next();
+      }
     }, 
     {
       path: '/Material/MaterialList',
       name: 'MaterialList',
-      component: MaterialList
+      component: MaterialList,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "物料管理", title2: "物料管理"
+        });
+        next();
+      }
     },
     {
       path: '/Material/MaterialApplyList',
       name: 'MateraiApplyList', 
-      component: MaterialApplyList
+      component: MaterialApplyList,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "物料管理", title2: "物料申请历史"
+        });
+        next();
+      }
     },
     {
       path: '/Material/DesignList',
       name: 'DesignList',
-      component: DesignList
+      component: DesignList,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "物料管理", title2: "款式管理"
+        });
+        next();
+      }
     },
     {
       path: '/DesignDetail/:designID',
-      component: DesignDetail
+      component: DesignDetail,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "物料管理", title2: "款式详情"
+        });
+        next();
+      }
     },
     {
       path: '/MaterialIn/MaterialInput',
       name: 'MaterialInput',
-      component: MaterialInput
+      component: MaterialInput,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "入库管理", title2: "入库"
+        });
+        next();
+      }
     },
     {
       path: '/MaterialIn/MaterialInputList',
       name: 'MaterialInputList',
-      component: MaterialInputList
+      component: MaterialInputList,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "入库管理", title2: "入库历史"
+        });
+        next();
+      }
     },
     {
       path: '/MaterialOut/MaterialOutput',
       name: 'MaterialOutput',
-      component: MaterialOutput
+      component: MaterialOutput,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "出库管理", title2: "出库"
+        });
+        next();
+      }
     },
     {
       path: '/MaterialOut/MaterialOutputList',
       name: 'MaterialOutputList',
-      component: MaterialOutputList
+      component: MaterialOutputList,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "出库管理", title2: "出库历史"
+        });
+        next();
+      }
     },
     {
       path: '/Process/ProcessorManagment',
