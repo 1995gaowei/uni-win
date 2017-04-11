@@ -1,7 +1,7 @@
 <template>
     <div>
     <el-input
-      placeholder="请输入查询信息"
+      placeholder="请输入查询信息（编号，名称）"
       icon="search"
       v-model="designSearchInfo"
       :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
@@ -35,24 +35,21 @@
       </el-table-column>
       <el-table-column
         prop="designProcessPrice"
-        label="价格">
+        label="价格"
+        sortable>
       </el-table-column>
       <el-table-column
         label="操作"
-        fixed="right"
         width="145">
             <template scope="scope">
                 <el-button @click="toDesignDetail(scope.row)" type="primary" size="small">详情</el-button>
-                <el-button @click.native.prevent="deleteDesign(scope.$index, designList)" type="danger" size="small">删除</el-button>
+                <el-button @click.native.prevent="deleteDesign(scope.row.designCode)" type="danger" size="small">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
 
     <el-dialog title="新增款式" v-model="addDesignDialogVisible">
-    <el-form :model="addDesignForm" :rules="addDesignRules" ref="addDesignForm" label-width="100px">
-    <el-form-item label="款式编号" prop="designCode">
-        <el-input v-model="addDesignForm.designCode"></el-input>
-    </el-form-item>
+    <el-form :model="addDesignForm" :rules="addDesignRules" ref="addDesignForm" label-width="100px" inline>
     <el-form-item label="款式名称" prop="designName">
         <el-input v-model="addDesignForm.designName"></el-input>
     </el-form-item>
@@ -85,12 +82,12 @@
     <el-form-item label="颜色说明" prop="designColorDescription">
         <el-input v-model="addDesignForm.designColorDescription"></el-input>
     </el-form-item>
-    <el-form-item label="旗舰地址" prop="designFlagShipURL">
+    <!--el-form-item label="旗舰地址" prop="designFlagShipURL">
         <el-input v-model="addDesignForm.designFlagShipURL"></el-input>
     </el-form-item>
     <el-form-item label="备注" prop="designComment">
         <el-input v-model="addDesignForm.designComment"></el-input>
-    </el-form-item>
+    </el-form-item-->
     </el-form>
     <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addDesign('addDesignForm')">确认新增</el-button>
@@ -103,13 +100,12 @@
   <script>
    import Vue from 'vue'
    import Api from '@/config/api'
-   import router from '@/router'
 
     export default {
       data() {
         return {
           designList: [],
-          _designList: [],
+          backupDesignList: [],
           designSearchInfo: '',
 
           addDesignDialogVisible: false,
@@ -128,9 +124,6 @@
             designComment: ''
           },
           addDesignRules: {
-            designCode: [
-              { required: true, message: '请输入款式编号' }
-            ],
             designName: [
               { required: true, message: '请输入款式名称' }
             ],
@@ -159,9 +152,9 @@
             designColorDescription: [
               { required: true, message: '请输入颜色描述' }
             ],
-            designFlagShipURL: [
-              { required: true, message: '请输入旗舰店地址' }
-            ]
+            // designFlagShipURL: [
+            //   { required: true, message: '请输入旗舰店地址' }
+            // ]
           },
         }
       },
@@ -170,28 +163,41 @@
       },
       methods: {
           fetchData() {
-              Vue.http.get(Api.backend_url + '/Bom/showDesignList').then(response => {
+              Vue.http.get(Api.backend_url + '/Bom/getAllDesign').then(response => {
+                    this.backupDesignList = response.body.data;
                     this.designList = response.body.data;
-                    this._designList = this.designList;
                 }, response => {
                     console.log(response);
                 });
           },
-          deleteDesign(index, rows) {
-              rows.splice(index, 1);
+          deleteDesign(designCode) {
+              let idx;
+              for (idx in this.backupDesignList) {
+                if (this.backupDesignList[idx].designCode == designCode) {
+                  this.backupDesignList.splice(idx, 1);
+                  break;
+                }
+              }
+              this.handleSearchDesign();
+              this.$notify({
+                title: '成功',
+                message: '款式删除成功',
+                type: 'success'
+              });
           },
           handleSearchDesign() {
-            this.designList = this._designList.filter((el, idx, arr) => {
+            this.designList = this.backupDesignList.filter((el, idx, arr) => {
               return el.designCode.indexOf(this.designSearchInfo) >= 0 || el.designName.indexOf(this.designSearchInfo) >= 0
             });
           },
           toDesignDetail(row) {
             console.log(row.designCode);
-            router.push('/DesignDetail/'+row.designID);
+            this.$router.push('/DesignDetail/'+row.designID);
           },
           addDesign(formName) {
             this.$refs[formName].validate((valid) => {
               if (valid) {
+                this.addDesignForm.designCode = 'KS' + new Date().getTime();
                 this.addDesignForm.designPutawayDate = this.addDesignForm.designPutawayDate.toJSON();
                 Vue.http.post(Api.backend_url + '/Bom/addDesign', this.addDesignForm).then(response => {
                   console.log(response);
@@ -199,7 +205,8 @@
                   for (let k in this.addDesignForm) {
                     newDesign[k] = this.addDesignForm[k];
                   }
-                  this._designList.unshift(newDesign);
+                  this.backupDesignList.unshift(newDesign);
+                  this.handleSearchDesign();
                   this.addDesignDialogVisible = false;
                   this.resetForm('addDesignForm');
                   this.$notify({

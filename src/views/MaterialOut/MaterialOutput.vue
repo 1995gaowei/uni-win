@@ -10,9 +10,9 @@
 
     <el-table :data="storeList" style="width:100%" border  max-height="500">
       <el-table-column type="index" width="70"></el-table-column>
-        <el-table-column prop="materialCode" label="物料编码"></el-table-column>
-        <el-table-column prop="materialName" label="物料名称"></el-table-column>
-        <el-table-column prop="location" label="仓储位置"></el-table-column>
+        <el-table-column prop="material.materialCode" label="物料编码"></el-table-column>
+        <el-table-column prop="material.materialName" label="物料名称"></el-table-column>
+        <el-table-column prop="warehouse.location" label="仓储位置"></el-table-column>
         <el-table-column prop="remainVol" label="库存数"></el-table-column>
         <el-table-column label="操作"  width="75">
             <template scope="scope">
@@ -86,14 +86,14 @@ export default {
     },
     handleSearchMaterial () {
         this.storeList = this._storeList.filter((el, idx, arr) => {
-            return el.materialName.indexOf(this.materialSearchInfo) >=0 || el.materialCode.indexOf(this.materialSearchInfo) >= 0
+            return el.material.materialName.indexOf(this.materialSearchInfo) >=0 || el.material.materialCode.indexOf(this.materialSearchInfo) >= 0
         })
     },
     showMaterialOutputDialog(index, store) {
       this.outputIndex = index;
       this.maxVol = store.remainVol;
-      this.materialOutputForm.materialCode = store.materialCode;
-      this.materialOutputForm.warehouseId = store.warehouseId;
+      this.materialOutputForm.materialCode = store.material.materialCode;
+      this.materialOutputForm.warehouseId = store.warehouse.warehouseid;
       this.materialOutputDialogVisible = true;
     },
     materialOutput() {

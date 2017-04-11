@@ -1,7 +1,7 @@
 <template>
     <div>
     <el-input
-      placeholder="请输入查询信息"
+      placeholder="请输入查询信息（编号，名称）"
       icon="search"
       v-model="materialSearchInfo"
       :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
@@ -13,37 +13,47 @@
       style="width: 100%"
       border
       max-height="500">
+      <el-table-column type="expand">
+        <template scope="props">
+          <el-form label-position="left" inline class="table-expand">
+            <el-form-item label="色号">
+              <span>{{ props.row.colorCode }}</span>
+            </el-form-item>
+            <el-form-item label="颜色说明">
+              <span>{{ props.row.colorDescription }}</span>
+            </el-form-item>
+            <el-form-item label="成分">
+              <span>{{ props.row.materialIngredient }}</span>
+            </el-form-item>
+            <el-form-item label="单位">
+              <span>{{ props.row.unit }}</span>
+            </el-form-item>
+            <el-form-item label="门幅">
+              <span>{{ props.row.width }}</span>
+            </el-form-item>
+            <el-form-item label="出量">
+              <span>{{ props.row.outputVol }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
       <el-table-column
         type="index"
         width="70">
       </el-table-column>
       <el-table-column
         prop="materialCode"
-        label="编号">
+        label="编号"
+        width="200">
       </el-table-column>
       <el-table-column
         prop="materialName"
         label="名称"
-        width="120">
+        width="200">
       </el-table-column>
       <el-table-column
         prop="materialType"
         label="类型">
-      </el-table-column>
-      <el-table-column
-        prop="colorCode"
-        label="色号"
-        width="120">
-      </el-table-column>
-      <el-table-column
-        prop="colorDescription"
-        label="颜色说明"
-        width="120">
-      </el-table-column>
-      <el-table-column
-        prop="materialIngredient"
-        label="成分"
-        width="150">
       </el-table-column>
       <el-table-column
         prop="unitPrice"
@@ -52,35 +62,17 @@
         width="100">
       </el-table-column>
       <el-table-column
-        prop="unit"
-        label="单位">
-      </el-table-column>
-      <el-table-column
-        prop="width"
-        label="门幅">
-      </el-table-column>
-      <el-table-column
-        prop="outputVol"
-        label="出量"
-        sortable
-        width="100">
-      </el-table-column>
-      <el-table-column
         label="操作"
-        fixed="right"
         width="145">
             <template scope="scope">
                 <el-button @click="showApplyMaterialDialog(scope.row)" type="primary" size="small">申请</el-button>
-                <el-button @click.native.prevent="deleteMaterial(scope.$index, materialList)" type="danger" size="small">删除</el-button>
+                <el-button @click.native.prevent="deleteMaterial(scope.row.materialCode)" type="danger" size="small">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
 
     <el-dialog title="新增物料" v-model="addMaterialDialogVisible">
-    <el-form :model="addMaterialForm" :rules="addMaterialRules" ref="addMaterialForm" label-width="100px">
-    <el-form-item label="物料编号" prop="materialCode">
-        <el-input v-model="addMaterialForm.materialCode"></el-input>
-    </el-form-item>
+    <el-form :model="addMaterialForm" :rules="addMaterialRules" ref="addMaterialForm" label-width="100px" inline>
     <el-form-item label="物料名称" prop="materialName">
         <el-input v-model="addMaterialForm.materialName"></el-input>
     </el-form-item>
@@ -159,7 +151,7 @@
       data() {
         return {
           materialList: [],
-          _materialList: [],
+          backupMaterialList: [],
           materialSearchInfo: '',
 
           applyMaterialDialogVisible: false,
@@ -193,9 +185,6 @@
             warehouse: ''
           },
           addMaterialRules: {
-            materialCode: [
-              { required: true, message: '请输入物料编号' }
-            ],
             materialName: [
               { required: true, message: '请输入物料名称' }
             ],
@@ -243,8 +232,8 @@
       methods: {
           fetchData() {
               Vue.http.get(Api.backend_url + '/Material/getMaterialList').then(response => {
+                    this.backupMaterialList = response.body.data;
                     this.materialList = response.body.data;
-                    this._materialList = response.body.data;
                     Vue.http.get(Api.backend_url + '/Material/getVendorList').then(response => {
                         this.vendors = response.body.data;
                         Vue.http.get(Api.backend_url + '/Material/getWarehouseList').then(response => {
@@ -259,11 +248,23 @@
                     console.log(response);
                 });
           },
-          deleteMaterial(index, rows) {
-              rows.splice(index, 1);
+          deleteMaterial(materialCode) {
+            let idx;
+            for (idx in this.backupMaterialList) {
+              if (this.backupMaterialList[idx].materialCode == materialCode) {
+                this.backupMaterialList.splice(idx, 1);
+                break;
+              }
+            }
+            this.handleSearchMaterial();
+            this.$notify({
+              title: '成功',
+              message: '物料删除成功',
+              type: 'success'
+            });
           },
           handleSearchMaterial() {
-            this.materialList = this._materialList.filter((el, idx, arr) => {
+            this.materialList = this.backupMaterialList.filter((el, idx, arr) => {
               return el.materialCode.indexOf(this.materialSearchInfo) >= 0 || el.materialName.indexOf(this.materialSearchInfo) >= 0
             });
           },
@@ -295,13 +296,15 @@
           addMaterial(formName) {
             this.$refs[formName].validate((valid) => {
               if (valid) {
+                this.addMaterialForm.materialCode = 'WL' + new Date().getTime();
                 Vue.http.post(Api.backend_url + '/Material/addMaterial', this.addMaterialForm).then(response => {
                   console.log(response);
                   let newMaterial = {};
                   for (let k in this.addMaterialForm) {
                     newMaterial[k] = this.addMaterialForm[k];
                   }
-                  this._materialList.unshift(newMaterial);
+                  this.backupMaterialList.unshift(newMaterial);
+                  this.handleSearchMaterial();
                   this.addMaterialDialogVisible = false;
                   this.resetForm('addMaterialForm');
                   this.$notify({
@@ -324,3 +327,18 @@
       }
     }
   </script>
+
+<style>
+  .table-expand {
+    font-size: 0;
+  }
+  .table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+</style>
