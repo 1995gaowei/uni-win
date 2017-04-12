@@ -17,7 +17,7 @@ import MaterialOutputList from '@/views/MaterialOut/MaterialOutputList'
 
 import ProcessorManagment from '@/views/Process/ProcessorManagment'
 import Receive from '@/views/Process/Receive'
-import OutSource_new from  '@/views/Process/OutSource_new'
+import newOutSource from  '@/views/Process/newOutSource'
 import Outsourcelist from '@/views/Process/Outsourcelist'
 
 import StartOutSourceManage from '@/views/ListManage/StartOutSourceManage'
@@ -140,9 +140,15 @@ export default new Router({
       component: Receive
     },
     {
-      path: '/Process/OutSource_new',
-      name: 'OutSource_new',
-      component: OutSource_new
+      path: '/Process/newOutSource',
+      name: 'newOutSource',
+      component: newOutSource,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "加工管理", title2: "新增外发单"
+        });
+        next();
+      }
     },
     {
       path: '/Process/Outsourcelist',

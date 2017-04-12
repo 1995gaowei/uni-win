@@ -1,7 +1,7 @@
 <template>
 <div>
     <el-input
-      placeholder="请输入查询信息"
+      placeholder="请输入查询信息（物料，仓储位置）"
       icon="search"
       v-model="materialSearchInfo"
       :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
@@ -85,7 +85,7 @@ export default {
     },
     handleSearchMaterial () {
         this.storeList = this._storeList.filter((el, idx, arr) => {
-            return el.material.materialName.indexOf(this.materialSearchInfo) >=0 || el.material.materialCode.indexOf(this.materialSearchInfo) >= 0
+            return el.material.materialName.indexOf(this.materialSearchInfo) >=0 || el.material.materialCode.indexOf(this.materialSearchInfo) >= 0 || el.warehouse.location.indexOf(this.materialSearchInfo) >= 0
         })
     },
     showMaterialInputDialog(index, store) {

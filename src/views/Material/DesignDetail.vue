@@ -23,6 +23,7 @@
             </el-col>
         </el-row>
 
+        <hr>
         <h3 style="font-weight: normal; display: inline-block;">Bom列表</h3>
         <el-button type="success" style="float: right; margin-top: 15px;" @click="addBomDialogVisible = true"><i class="el-icon-plus"></i> 新增Bom</el-button>
         <el-table :data="bomList" border max-height="400" style="margin-top: 5px;margin-bottom: 20px; width: 100%;">

@@ -203,7 +203,7 @@ export default{
             });
           },
         showTakeDelivery(processorCode){
-               this.takeDeliveryInfo.processorCode=processor;
+               this.takeDeliveryInfo.processorCode=processorCode;
                this.takeDeliveryInfo.outsource_Code='outcode001';
                dialogtakeDelivery = true;
         

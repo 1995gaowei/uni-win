@@ -5,7 +5,7 @@
             <el-menu-item-group>
                 <el-menu-item index="/Material/MaterialList"><i class="el-icon-d-arrow-right"></i>物料管理</el-menu-item>
                 <el-menu-item index="/Material/MaterialApplyList"><i class="el-icon-d-arrow-right"></i>物料申请历史</el-menu-item>
-                <el-menu-item index="1-5"><i class="el-icon-d-arrow-right"></i>供应商管理</el-menu-item>
+                <!--el-menu-item index="1-5"><i class="el-icon-d-arrow-right"></i>供应商管理</el-menu-item-->
                 <el-menu-item index="/Material/DesignList"><i class="el-icon-d-arrow-right"></i>款式管理</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
@@ -28,7 +28,7 @@
             <el-menu-item-group>
                 <el-menu-item index="/Process/ProcessorManagment"><i class="el-icon-d-arrow-right"></i>加工方管理</el-menu-item>
                 <el-menu-item index="/Process/Receive"><i class="el-icon-d-arrow-right"></i>收货单管理</el-menu-item>
-                <el-menu-item index="/Process/OutSource_new"><i class="el-icon-d-arrow-right"></i>新增外发单</el-menu-item>
+                <el-menu-item index="/Process/newOutSource"><i class="el-icon-d-arrow-right"></i>新增外发单</el-menu-item>
                 <el-menu-item index="/Process/Outsourcelist"><i class="el-icon-d-arrow-right"></i>外发单管理</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
