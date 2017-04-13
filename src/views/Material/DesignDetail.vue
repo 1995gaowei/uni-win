@@ -166,7 +166,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .image{
       width: 100%;
     }

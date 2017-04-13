@@ -30,7 +30,7 @@ export default {
     return{
     materialOutputSearchInfo: '',
     materialOutputList: [],
-    _materialOutputList: []
+    backupMaterialOutputList: []
     };
   },
   created: function () {
@@ -40,13 +40,13 @@ export default {
     fetchData () {
         Vue.http.get(Api.backend_url + '/Warehouse/materialOut_showMaterialOutputs').then(response => {
             this.materialOutputList = response.body.data;
-            this._materialOutputList = response.body.data;
+            this.backupMaterialOutputList = response.body.data;
         }, response => {
             console.log(response);
         });
     },
     handleSearchMaterialOutput () {
-        this.materialOutputList = this._materialOutputList.filter((el, idx, arr) => {
+        this.materialOutputList = this.backupMaterialOutputList.filter((el, idx, arr) => {
             return el.material.materialName.indexOf(this.materialOutputSearchInfo) >=0 || el.material.materialCode.indexOf(this.materialOutputSearchInfo) >= 0 ||
             el.materialOutputDate.indexOf(this.materialOutputSearchInfo) >= 0 || el.user.userName.indexOf(this.materialOutputSearchInfo) >= 0
         })

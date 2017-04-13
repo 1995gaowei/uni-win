@@ -27,6 +27,9 @@ import outSourceManage from '@/views/ListManage/outSourceManage'
 
 import PurchaseList from '@/views/Purchase/PurchaseList'
 
+import AddTechnique from '@/views/Technique/AddTechnique'
+import TechniqueManage from '@/views/Technique/TechniqueManage'
+
 Vue.use(Router)
 
 export default new Router({
@@ -179,7 +182,28 @@ export default new Router({
       path: '/Purchase/PurchaseList',
       name: 'PurchaseList',
       component: PurchaseList
-    }
-
+    },
+    {
+      path: '/Technique/AddTechnique',
+      name: 'AddTechnique',
+      component: AddTechnique,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "工艺管理", title2: "新增工艺单"
+        });
+        next();
+      }
+    },
+    {
+      path: '/Technique/TechniqueManage',
+      name: 'TechniqueManage',
+      component: TechniqueManage,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "工艺管理", title2: "工艺单管理"
+        });
+        next();
+      }
+    },
   ]
 })

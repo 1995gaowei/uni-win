@@ -51,8 +51,8 @@
         <el-submenu index="7">
             <template slot="title"><i class="el-icon-menu"></i>工艺管理</template>
             <el-menu-item-group>
-                <el-menu-item index="7-1"><i class="el-icon-d-arrow-right"></i>新增款式工艺单</el-menu-item>
-                <el-menu-item index="7-2"><i class="el-icon-d-arrow-right"></i>工艺管理</el-menu-item>
+                <el-menu-item index="/Technique/AddTechnique"><i class="el-icon-d-arrow-right"></i>新增工艺单</el-menu-item>
+                <el-menu-item index="/Technique/TechniqueManage"><i class="el-icon-d-arrow-right"></i>工艺单管理</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="8">

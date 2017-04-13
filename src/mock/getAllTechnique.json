@@ -1,0 +1,91 @@
+{
+    "result" : "success",
+    "data" : [
+        {
+            "techDate" : "2017-04-01",
+            "technique" : "工艺技术1",
+            "techShellType" : "麻布1",
+            "techSampleSize" : "样板尺寸1",
+            "techJointSize" : "作缝大小1",
+            "techLineDistance" : "线距1",
+            "techPressingReq" : "整烫要求1",
+            "techComment" : "备注",
+            "design" : {
+                "designCode" : "KS001000000000",
+                "designName" : "款式001"
+            },
+            "user" : {
+                "userAccount" : "Messi"
+            },
+            "processor" : {
+                "processorName" : "processor01"
+            },
+            "inventoryList" : [
+                {
+                    "techInPartName" : "上衣",
+                    "techInMCode" : "M",
+                    "techInTolerance" : "4"
+                },
+                {
+                    "techInPartName" : "上衣",
+                    "techInMCode" : "S",
+                    "techInTolerance" : "4"
+                }
+            ]
+        },
+        {
+            "techDate" : "2017-04-02",
+            "technique" : "工艺技术2",
+            "techShellType" : "麻布2",
+            "techSampleSize" : "样板尺寸2",
+            "techJointSize" : "作缝大小2",
+            "techLineDistance" : "线距2",
+            "techPressingReq" : "整烫要求2",
+            "techComment" : "备注",
+            "design" : {
+                "designCode" : "KS002",
+                "designName" : "款式002"
+            },
+            "user" : {
+                "userAccount" : "Messi"
+            },
+            "processor" : {
+                "processorName" : "processor02"
+            },
+            "inventoryList" : [
+                {
+                    "techInPartName" : "上衣",
+                    "techInMCode" : "L",
+                    "techInTolerance" : "4"
+                }
+            ]
+        },
+        {
+            "techDate" : "2017-04-02",
+            "technique" : "工艺技术3",
+            "techShellType" : "麻布3",
+            "techSampleSize" : "样板尺寸3",
+            "techJointSize" : "作缝大小3",
+            "techLineDistance" : "线距3",
+            "techPressingReq" : "整烫要求3",
+            "techComment" : "备注",
+            "design" : {
+                "designCode" : "KS002",
+                "designName" : "款式002"
+            },
+            "user" : {
+                "userAccount" : "GW"
+            },
+            "processor" : {
+                "processorName" : "processor02"
+            },
+            "inventoryList" : [
+                {
+                    "techInPartName" : "上衣",
+                    "techInMCode" : "M",
+                    "techInTolerance" : "4"
+                }
+            ]
+        }
+    ]
+}

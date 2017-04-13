@@ -1,7 +1,7 @@
 <template>
    <div>
    
-       <el-form :model="newOutSourceForm" ref="newOutSourceForm" inline class="half-form" :rules="rules" label-position="left" label-width="130px">
+       <el-form :model="newOutSourceForm" ref="newOutSourceForm" inline class="half-form-l" :rules="rules" label-position="left" label-width="130px">
            <el-form-item  label="生产单号" prop="productionCode">
                <el-input v-model="newOutSourceForm.productionCode"  placeholder="生产单号"></el-input>
            </el-form-item>
@@ -168,7 +168,7 @@ export default{
 }
 </script>
 
-<style>
+<style scoped>
 .detailLabel {
     display: inline-flex;
     width: 40px;
@@ -178,26 +178,4 @@ export default{
     display: inline-flex;
 }
 
-.half-form {
-    font-size: 0;
-}
-
-.half-form .el-form-item {
-    width: 50%;
-    margin-right: 0;
-}
-
-.half-form .el-form-item__label {
-    float: left;
-}
-
-.half-form .el-form-item__content {
-    margin-left: 130px;
-    margin-right: 50px;
-    display: block;
-}
-
-.half-form .el-form-item__content div {
-    width: 100%;
-}
 </style>

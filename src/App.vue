@@ -28,7 +28,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .content {
   margin:75px 20px 20px 320px;
 }
@@ -44,5 +44,67 @@ export default {
 .main-view {
   margin-top: 15px;
   min-height:500px;
+}
+.image {
+  width: 100%;
+}
+
+.table-expand {
+  font-size: 0;
+}
+.table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+
+.half-form-l {
+    font-size: 0;
+}
+
+.half-form-l .el-form-item {
+    width: 50%;
+    margin-right: 0;
+}
+
+.half-form-l .el-form-item__label {
+    float: left;
+}
+
+.half-form-l .el-form-item__content {
+    margin-left: 130px;
+    margin-right: 50px;
+    display: block;
+}
+
+.half-form-l .el-form-item__content div {
+    width: 100%;
+}
+
+.half-form-s {
+    font-size: 0;
+}
+
+.half-form-s .el-form-item {
+    width: 50%;
+    margin-right: 0;
+}
+
+.half-form-s .el-form-item__label {
+    float: left;
+}
+
+.half-form-s .el-form-item__content {
+    margin-left: 100px;
+    margin-right: 10px;
+    display: block;
+}
+
+.half-form-s .el-form-item__content div {
+    width: 100%;
 }
 </style>

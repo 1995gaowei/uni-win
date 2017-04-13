@@ -49,7 +49,7 @@
     </el-table>
 
     <el-dialog title="新增款式" v-model="addDesignDialogVisible">
-    <el-form :model="addDesignForm" :rules="addDesignRules" ref="addDesignForm" label-width="100px" inline>
+    <el-form :model="addDesignForm" :rules="addDesignRules" ref="addDesignForm" label-width="100px" inline class="half-form-s">
     <el-form-item label="款式名称" prop="designName">
         <el-input v-model="addDesignForm.designName"></el-input>
     </el-form-item>
@@ -231,7 +231,7 @@
   </script>
 
   <style>
-    .image{
-      width: 100%;
-    }
+.image{
+    width: 100%;
+}
   </style>

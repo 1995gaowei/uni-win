@@ -72,7 +72,7 @@
     </el-table>
 
     <el-dialog title="新增物料" v-model="addMaterialDialogVisible">
-    <el-form :model="addMaterialForm" :rules="addMaterialRules" ref="addMaterialForm" label-width="100px" inline>
+    <el-form :model="addMaterialForm" :rules="addMaterialRules" ref="addMaterialForm" label-width="100px" inline class="half-form-s">
     <el-form-item label="物料名称" prop="materialName">
         <el-input v-model="addMaterialForm.materialName"></el-input>
     </el-form-item>
@@ -327,18 +327,3 @@
       }
     }
   </script>
-
-<style>
-  .table-expand {
-    font-size: 0;
-  }
-  .table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-  .table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
-  }
-</style>
