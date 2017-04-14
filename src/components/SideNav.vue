@@ -66,8 +66,8 @@
         <el-submenu index="9">
             <template slot="title"><i class="el-icon-menu"></i>样衣信息</template>
             <el-menu-item-group>
-                <el-menu-item index="9-1"><i class="el-icon-d-arrow-right"></i>样衣入库</el-menu-item>
-                <el-menu-item index="9-2"><i class="el-icon-d-arrow-right"></i>样衣资料管理</el-menu-item>
+                <el-menu-item index="/Sample/SampleInput"><i class="el-icon-d-arrow-right"></i>样衣入库</el-menu-item>
+                <el-menu-item index="/Sample/SampleList"><i class="el-icon-d-arrow-right"></i>样衣列表</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="10">

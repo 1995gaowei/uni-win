@@ -30,6 +30,9 @@ import PurchaseList from '@/views/Purchase/PurchaseList'
 import AddTechnique from '@/views/Technique/AddTechnique'
 import TechniqueManage from '@/views/Technique/TechniqueManage'
 
+import SampleInput from '@/views/Sample/SampleInput'
+import SampleList from '@/views/Sample/SampleList'
+
 Vue.use(Router)
 
 export default new Router({
@@ -201,6 +204,28 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         store.commit('changeTitle', {
           title1: "工艺管理", title2: "工艺单管理"
+        });
+        next();
+      }
+    },
+    {
+      path: '/Sample/SampleInput',
+      name: 'SampleInput',
+      component: SampleInput,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "样衣管理", title2: "样衣入库"
+        });
+        next();
+      }
+    },
+    {
+      path: '/Sample/SampleList',
+      name: 'SampleList',
+      component: SampleList,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "样衣管理", title2: "样衣列表"
         });
         next();
       }

@@ -1,0 +1,50 @@
+{
+    "result" : "success",
+    "data" : [
+        {
+            "design" : {
+                "designCode" : "KS001000000000",
+                "designName" : "款式001"
+            },
+            "samplePlace" : "位置1",
+            "sampleState" : "外借",
+            "sampledetail" : [
+                {
+                    "sampleOPType" : "入库 ",
+                    "sampleOPTime" : "2017-04-03",
+                    "sampleOPComment" : "备注1"
+                },
+                {
+                    "sampleOPType" : "出库 ",
+                    "sampleOPTime" : "2017-04-03",
+                    "sampleOPComment" : "备注2"
+                }
+            ]
+        },
+        {
+            "design" : {
+                "designCode" : "KS002000000000",
+                "designName" : "款式002"
+            },
+            "samplePlace" : "位置2",
+            "sampleState" : "在库",
+            "sampledetail" : [
+                {
+                    "sampleOPType" : "入库 ",
+                    "sampleOPTime" : "2017-04-03",
+                    "sampleOPComment" : "备注1"
+                },
+                {
+                    "sampleOPType" : "出库 ",
+                    "sampleOPTime" : "2017-04-03",
+                    "sampleOPComment" : "备注2"
+                },
+                {
+                    "sampleOPType" : "出库 ",
+                    "sampleOPTime" : "2017-04-03",
+                    "sampleOPComment" : "备注3"
+                }
+            ]
+        }
+    ]
+}

@@ -10,4 +10,6 @@ module.exports = {
     addTechnique: BACKEND_URL + MOCK_POST,
     getAllTechnique: MOCK_BACKEND_URL + '/getAllTechnique.json',
 
+    addSampleInput: BACKEND_URL + MOCK_POST,
+    getAllSample: MOCK_BACKEND_URL + '/getAllSample.json' 
 }
