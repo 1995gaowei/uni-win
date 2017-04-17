@@ -5,8 +5,8 @@
             <el-menu-item-group>
                 <el-menu-item index="/Material/MaterialList"><i class="el-icon-d-arrow-right"></i>物料管理</el-menu-item>
                 <el-menu-item index="/Material/MaterialApplyList"><i class="el-icon-d-arrow-right"></i>物料申请历史</el-menu-item>
-                <!--el-menu-item index="1-5"><i class="el-icon-d-arrow-right"></i>供应商管理</el-menu-item-->
                 <el-menu-item index="/Material/DesignList"><i class="el-icon-d-arrow-right"></i>款式管理</el-menu-item>
+                <el-menu-item index="/Material/VendorList"><i class="el-icon-d-arrow-right"></i>供应商管理</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">

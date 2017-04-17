@@ -18,7 +18,7 @@
       <el-table v-model="TechniquePhaseVO">
          <el-table-column label="图片">
           <template scope="scope">
-          <img src="../../assets/logo.png" class="image">
+          <img src="../../assets/1.jpg" class="image">
           </template>
          </el-table-column>
          <el-table-column  label="订单编号">

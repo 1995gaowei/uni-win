@@ -1,10 +1,10 @@
 <template>
     <div>
     <el-input
-      placeholder="请输入查询信息（编号，名称）"
+      placeholder="请输入查询信息（编号/名称）"
       icon="search"
       v-model="designSearchInfo"
-      :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
+      :style="{ 'margin-bottom': '20px', 'width': '350px', 'min-width': '150px' }"
       @change="handleSearchDesign">
     </el-input>
     <el-button type="success" :style="{ 'float': 'right' }" @click="addDesignDialogVisible = true"><i class="el-icon-plus"></i> 新增款式</el-button>
@@ -21,7 +21,7 @@
         label="图片"
         width="200">
         <template scope="scope">
-          <img src="../../assets/logo.png" class="image">
+          <img src="../../assets/1.jpg" class="image">
         </template>
       </el-table-column>
       <el-table-column
@@ -179,8 +179,7 @@
                 }
               }
               this.handleSearchDesign();
-              this.$notify({
-                title: '成功',
+              this.$message({
                 message: '款式删除成功',
                 type: 'success'
               });
@@ -209,8 +208,7 @@
                   this.handleSearchDesign();
                   this.addDesignDialogVisible = false;
                   this.resetForm('addDesignForm');
-                  this.$notify({
-                    title: '成功',
+                  this.$message({
                     message: '新增款式成功',
                     type: 'success'
                   });

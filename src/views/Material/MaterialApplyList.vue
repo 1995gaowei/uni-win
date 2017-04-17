@@ -1,10 +1,10 @@
 <template>
     <div>
     <el-input
-      placeholder="请输入查询信息"
+      placeholder="请输入查询信息（日期/申请人/物料）"
       icon="search"
       v-model="materialApplySearchInfo"
-      :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
+      :style="{ 'margin-bottom': '20px', 'width': '350px', 'min-width': '150px' }"
       @change="handleSearchMaterialApply">
     </el-input>
 
@@ -69,7 +69,7 @@
             },
             handleSearchMaterialApply() {
                  this.materialApplyList = this._materialApplyList.filter((el, idx, arr) => {
-                    return el.user.userAccount.indexOf(this.materialApplySearchInfo) >= 0 || el.material.materialCode.indexOf(this.materialApplySearchInfo) >= 0
+                    return el.user.userAccount.indexOf(this.materialApplySearchInfo) >= 0 || el.material.materialCode.indexOf(this.materialApplySearchInfo) >= 0 || el.matrialApplyDate.indexOf(this.materialApplySearchInfo) >= 0
                 });
             },
             dateFormatter(row, column) {

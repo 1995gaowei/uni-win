@@ -4,7 +4,7 @@
       placeholder="请输入查询信息（日期/物料/操作人）"
       icon="search"
       v-model="materialInputSearchInfo"
-      :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
+      :style="{ 'margin-bottom': '20px', 'width': '350px', 'min-width': '150px' }"
       @change="handleSearchMaterialInput">
     </el-input>
 

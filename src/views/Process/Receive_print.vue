@@ -64,7 +64,7 @@
 			</div>
 			<div class="col-md-2">
 				 <template>
-                     <img src="../../assets/logo.png" class="image">
+                     <img src="../../assets/1.jpg" class="image">
                  </template>	
 			</div>
 		</div>

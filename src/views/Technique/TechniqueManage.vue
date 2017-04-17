@@ -1,10 +1,10 @@
 <template>
 <div>
     <el-input
-      placeholder="请输入查询信息"
+      placeholder="请输入查询信息（日期/款式/加工方/操作人）"
       icon="search"
       v-model="techniqueSearchInfo"
-      :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
+      :style="{ 'margin-bottom': '20px', 'width': '350px', 'min-width': '150px' }"
       @change="handleSearchTechnique">
     </el-input>
 
@@ -32,7 +32,7 @@
             label="图片"
             width="150">
             <template scope="scope">
-                <img src="../../assets/logo.png" class="image">
+                <img src="../../assets/1.jpg" class="image">
             </template>
         </el-table-column>
         <el-table-column prop="techDate" sortable label="日期" width="120" :formatter="dateFormatter"></el-table-column>

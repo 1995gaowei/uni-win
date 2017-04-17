@@ -7,6 +7,9 @@ const MOCK_POST = '/test/post'
 module.exports = {
     backend_url: BACKEND_URL,
 
+    addMaterial: BACKEND_URL + MOCK_POST,
+    addVendor: BACKEND_URL + MOCK_POST,
+
     addTechnique: BACKEND_URL + MOCK_POST,
     getAllTechnique: MOCK_BACKEND_URL + '/getAllTechnique.json',
 

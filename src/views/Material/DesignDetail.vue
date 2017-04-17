@@ -2,7 +2,7 @@
     <div>
         <el-row type="flex" justify="space-around">
             <el-col :span="6">
-                <img src="../../assets/logo.png" class="image">
+                <img src="../../assets/2.jpg" class="image">
             </el-col>
             <el-col :span="6">
                 <el-form label-width="80px" label-position="left">
@@ -42,9 +42,7 @@
         <el-dialog title="新增Bom" v-model="addBomDialogVisible" size="tiny">
             <el-form :model="addBomForm" :rules="addBomRules" ref="addBomForm" label-width="60px">
                 <el-form-item label="物料" prop="materialCode">
-                    <el-select v-model="addBomForm.materialCode" filterable placeholder="请选择物料" style="width: 100%;">
-                        <el-option :label="material.materialCode+'--'+material.materialName" :value="material.materialCode" v-for="material in materials" :key="materials.materialCode"></el-option>
-                    </el-select>
+                    <material-select v-model="addBomForm.materialCode"></material-select>
                 </el-form-item>
                 <el-form-item label="位置" prop="materialPosition">
                     <el-input v-model="addBomForm.materialPosition"></el-input>
@@ -65,8 +63,12 @@
 <script>
     import Vue from 'vue'
     import Api from '@/config/api'
+    import MaterialSelect from '@/components/MaterialSelect'
 
     export default {
+        components: {
+            MaterialSelect
+        },
         data () {
             return {
                 design: {},
@@ -103,11 +105,6 @@
                 Vue.http.get(Api.backend_url + '/Bom/getBom?designId=' + this.$route.params.designID).then(response => {
                     this.design = response.body.data.design;
                     this.bomList = response.body.data.bom;
-                    Vue.http.get(Api.backend_url + '/Material/getMaterialList').then(response => {
-                        this.materials = response.body.data;
-                    }, response => {
-                        console.log(response);
-                    });
                 }, response => {
                     console.log(response);
                 })
@@ -125,8 +122,7 @@
                         this.bomList.unshift(newBom);
                         this.addBomDialogVisible = false;
                         this.resetForm('addBomForm');
-                        this.$notify({
-                            title: '成功',
+                        this.$message({
                             message: 'Bom新增成功',
                             type: 'success'
                         });
@@ -147,8 +143,7 @@
                 Vue.http.post(Api.backend_url + '/Bom/deleteBom', deleteBom).then(response => {
                     console.log(response);
                     this.bomList.splice(index, 1);
-                    this.$notify({
-                        title: '成功',
+                    this.$message({
                         message: 'Bom删除成功',
                         type: 'success'
                     });

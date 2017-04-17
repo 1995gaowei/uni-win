@@ -42,7 +42,7 @@
       <el-table v-model="TailorManageVOList">
          <el-table-column label="图片">
              <template>
-                <img src="../../assets/logo.png" class="image">
+                <img src="../../assets/1.jpg" class="image">
              </template>
          </el-table-column>
          <el-table-column  label="外发订单编号">

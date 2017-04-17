@@ -1,10 +1,10 @@
 <template>
 <div>
     <el-input
-      placeholder="请输入查询信息（物料，仓储位置）"
+      placeholder="请输入查询信息（物料/仓储位置）"
       icon="search"
       v-model="materialSearchInfo"
-      :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
+      :style="{ 'margin-bottom': '20px', 'width': '350px', 'min-width': '150px' }"
       @change="handleSearchMaterial">
     </el-input>
 
@@ -102,8 +102,7 @@ export default {
         this.materialOutputDialogVisible = false;
         this.storeList[this.outputIndex].remainVol -= this.materialOutputForm.materialOutputVol;
         this.resetForm('materialOutputForm');
-        this.$notify({
-          title: '成功',
+        this.$message({
           message: '物料出库成功',
           type: 'success'
         });

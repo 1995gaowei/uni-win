@@ -26,7 +26,7 @@
            <el-form-item prop="techPressingReq" label="整烫要求">
                 <el-input v-model="newTechniqueForm.techPressingReq"></el-input>
            </el-form-item>
-           <el-form-item prop="techComment" label="备注">
+           <el-form-item prop="techComment" label="备注" style="width: 100%;">
                 <el-input  type="textarea" :autosize="{ minRows: 2 }" v-model="newTechniqueForm.techComment"></el-input>
            </el-form-item>
        </el-form>

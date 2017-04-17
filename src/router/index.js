@@ -8,6 +8,7 @@ import MaterialList from '@/views/Material/MaterialList'
 import MaterialApplyList from '@/views/Material/MaterialApplyList'
 import DesignList from '@/views/Material/DesignList'
 import DesignDetail from '@/views/Material/DesignDetail'
+import VendorList from '@/views/Material/VendorList'
 
 import MaterialInput from '@/views/MaterialIn/MaterialInput'
 import MaterialInputList from '@/views/MaterialIn/MaterialInputList'
@@ -77,6 +78,17 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         store.commit('changeTitle', {
           title1: "物料管理", title2: "款式管理"
+        });
+        next();
+      }
+    },
+    {
+      path: '/Material/VendorList',
+      name: 'VendorList',
+      component: VendorList,
+      beforeEnter: (to, from, next) => {
+        store.commit('changeTitle', {
+          title1: "物料管理", title2: "供应商管理"
         });
         next();
       }

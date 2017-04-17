@@ -1,10 +1,10 @@
 <template>
     <div>
     <el-input
-      placeholder="请输入查询信息（编号，名称）"
+      placeholder="请输入查询信息（编号/名称）"
       icon="search"
       v-model="materialSearchInfo"
-      :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
+      :style="{ 'margin-bottom': '20px', 'width': '350px', 'min-width': '150px' }"
       @change="handleSearchMaterial">
     </el-input>
     <el-button type="success" :style="{ 'float': 'right' }" @click="addMaterialDialogVisible = true"><i class="el-icon-plus"></i> 新增物料</el-button>
@@ -103,15 +103,11 @@
     <el-form-item label="出量" prop="outputVol">
         <el-input v-model.number="addMaterialForm.outputVol"></el-input>
     </el-form-item>
-    <el-form-item label="供应商" prop="vendorId">
-        <el-select v-model="addMaterialForm.vendorId" placeholder="请选择供应商">
-            <el-option :label="vendor.vendorName" :value="vendor.vendorId" v-for="vendor in vendors" :key="vendor.vendorId"></el-option>
-        </el-select>
-    </el-form-item>
     <el-form-item label="仓储位置" prop="warehouse">
-        <el-select v-model="addMaterialForm.warehouse" placeholder="请选择仓储位置">
-            <el-option :label="warehouse.location" :value="warehouse.location" v-for="warehouse in warehouses" :key="warehouses.warehouseid"></el-option>
-        </el-select>
+        <warehouse-select v-model="addMaterialForm.warehouse"></warehouse-select>
+    </el-form-item>
+    <el-form-item label="供应商" prop="vendors" style="width: 100%;">
+        <vendor-select v-model="addMaterialForm.vendors" placeholder="请选择供应商" filterable :multiple="true"></vendor-select>
     </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -146,8 +142,13 @@
   <script>
    import Vue from 'vue'
    import Api from '@/config/api'
+   import WarehouseSelect from '@/components/WarehouseSelect'
+   import VendorSelect from '@/components/VendorSelect'
 
     export default {
+      components: {
+        WarehouseSelect, VendorSelect
+      },
       data() {
         return {
           materialList: [],
@@ -181,7 +182,7 @@
             unit: '',
             width: '',
             outputVol: '',
-            vendorId: '',
+            vendors: [],
             warehouse: ''
           },
           addMaterialRules: {
@@ -215,15 +216,14 @@
               { required: true, message: '请输入出量' },
               { type: 'number', message: '出量必须为数字值' }
             ],
-            vendorId: [
-              { required: true, message: '请输入供应商' }
+            vendors: [
+              { required: true, message: '请选择供应商' }
             ],
             warehouse: [
-              { required: true, message: '请输入仓储位置' }
+              { required: true, message: '请选择仓储位置' }
             ]
           },
-          vendors: [],
-          warehouses: []
+          vendors: []
         }
       },
       created: function() {
@@ -234,16 +234,6 @@
               Vue.http.get(Api.backend_url + '/Material/getMaterialList').then(response => {
                     this.backupMaterialList = response.body.data;
                     this.materialList = response.body.data;
-                    Vue.http.get(Api.backend_url + '/Material/getVendorList').then(response => {
-                        this.vendors = response.body.data;
-                        Vue.http.get(Api.backend_url + '/Material/getWarehouseList').then(response => {
-                            this.warehouses = response.body.data;
-                        }, response => {
-                            console.log(response);
-                        });
-                    }, response => {
-                        console.log(response);
-                    });
                 }, response => {
                     console.log(response);
                 });
@@ -257,8 +247,7 @@
               }
             }
             this.handleSearchMaterial();
-            this.$notify({
-              title: '成功',
+            this.$message({
               message: '物料删除成功',
               type: 'success'
             });
@@ -279,9 +268,8 @@
                   console.log(response);
                   this.applyMaterialDialogVisible = false;
                   this.resetForm('applyMaterialForm');
-                  this.$notify({
-                    title: '成功',
-                    message: '申请物料成功',
+                  this.$message({
+                    message: '物料申请成功',
                     type: 'success'
                   });
                 }, response => {
@@ -297,7 +285,7 @@
             this.$refs[formName].validate((valid) => {
               if (valid) {
                 this.addMaterialForm.materialCode = 'WL' + new Date().getTime();
-                Vue.http.post(Api.backend_url + '/Material/addMaterial', this.addMaterialForm).then(response => {
+                Vue.http.post(Api.addMaterial, this.addMaterialForm).then(response => {
                   console.log(response);
                   let newMaterial = {};
                   for (let k in this.addMaterialForm) {
@@ -307,9 +295,8 @@
                   this.handleSearchMaterial();
                   this.addMaterialDialogVisible = false;
                   this.resetForm('addMaterialForm');
-                  this.$notify({
-                    title: '成功',
-                    message: '新增物料成功',
+                  this.$message({
+                    message: '物料新增成功',
                     type: 'success'
                   });
                 }, response => {

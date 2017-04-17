@@ -19,7 +19,7 @@
       <el-table v-model="outSourceList">
          <el-table-item label="图片"> 
           <template scope="scope">
-          <img src="../../assets/logo.png" class="image">
+          <img src="../../assets/1.jpg" class="image">
         </template>
         </el-table-item>
          <el-table-item label="订单编号">

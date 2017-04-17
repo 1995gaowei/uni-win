@@ -22,7 +22,7 @@
      <el-table v-model="outsourceDetails">
          <el-table-column label="图片">
           <template scope="scope">
-          <img src="../../assets/logo.png" class="image">
+          <img src="../../assets/1.jpg" class="image">
           </template>
         </el-table-column>
          <el-table-column label="外发单号"> 

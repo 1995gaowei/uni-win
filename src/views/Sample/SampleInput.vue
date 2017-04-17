@@ -1,10 +1,10 @@
 <template>
 <div>
     <el-input
-      placeholder="请输入查询信息（编号，名称）"
+      placeholder="请输入查询信息（编号/名称）"
       icon="search"
       v-model="designSearchInfo"
-      :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
+      :style="{ 'margin-bottom': '20px', 'width': '350px', 'min-width': '150px' }"
       @change="handleSearchDesign">
     </el-input>
 
@@ -12,7 +12,7 @@
       <el-table-column type="index" width="70"></el-table-column>
       <el-table-column label="图片" width="200">
         <template scope="scope">
-          <img src="../../assets/logo.png" class="image">
+          <img src="../../assets/1.jpg" class="image">
         </template>
       </el-table-column>
         <el-table-column prop="designCode" label="款式编码"></el-table-column>

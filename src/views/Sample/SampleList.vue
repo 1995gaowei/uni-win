@@ -1,10 +1,10 @@
 <template>
 <div>
     <el-input
-      placeholder="请输入查询信息（款式，状态，位置）"
+      placeholder="请输入查询信息（款式/状态/位置）"
       icon="search"
       v-model="sampleSearchInfo"
-      :style="{ 'margin-bottom': '20px', 'width': '30%', 'min-width': '150px' }"
+      :style="{ 'margin-bottom': '20px', 'width': '350px', 'min-width': '150px' }"
       @change="handleSearchSample">
     </el-input>
 
